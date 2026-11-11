@@ -3929,3 +3929,56 @@ div[data-plan_id="174"] > *,
 .knx-voice-bar * {
   pointer-events: none !important;
 }
+
+
+/* ==========================================================================
+   HOTFIXES - GEMINI AUDIT: DYNAMIC ARC BAR & COLLAPSED PILL CONFLICTS
+   ========================================================================== */
+
+/* Linky Arc Reactor Power Segments */
+.knx-arc-segment.active-amber {
+  background: #fbbf24 !important;
+  box-shadow: 0 0 6px rgba(251, 191, 36, 0.7) !important;
+}
+
+.knx-arc-segment.active-red {
+  background: #ef4444 !important;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.85) !important;
+}
+
+/* Fix Collapsed Card Conflicts (Linky, Weather, Jarvis Terminal) */
+.knx-linky-card.collapsed,
+.knx-hud-card.collapsed,
+.knx-jarvis-terminal.collapsed {
+  clip-path: none !important;
+  border-radius: 9999px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 8px 14px !important;
+  width: auto !important;
+  overflow: visible !important;
+}
+
+/* Hide HUD Corner Brackets when card is collapsed into a pill */
+.knx-linky-card.collapsed::before,
+.knx-linky-card.collapsed::after,
+.knx-hud-card.collapsed::before,
+.knx-hud-card.collapsed::after,
+.knx-jarvis-terminal.collapsed::before,
+.knx-jarvis-terminal.collapsed::after {
+  display: none !important;
+}
+
+/* Hide interior contents of Jarvis Terminal when collapsed */
+.knx-jarvis-terminal.collapsed .knx-neural-hero-stage,
+.knx-jarvis-terminal.collapsed .knx-neural-sphere-wrap,
+.knx-jarvis-terminal.collapsed .knx-voice-bar {
+  display: none !important;
+}
+
+/* Rotate Toggle Arrow when collapsed */
+.knx-linky-card.collapsed .knx-toggle-icon,
+.knx-hud-card.collapsed .knx-toggle-icon,
+.knx-jarvis-terminal.collapsed .knx-toggle-icon {
+  transform: rotate(180deg) !important;
+}

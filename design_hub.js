@@ -100,12 +100,19 @@
       hasMouse: false
     };
 
-    const JARVIS_PALETTE = {
-      bg: '#04101e',
-      dim: [14, 74, 118],
-      mid: [56, 189, 248],
-      bright: [232, 250, 255]
-    };
+    // Dynamic Biometric Matrix Palette: reflects live home state
+    function getLivePalette() {
+      const pwr = parseFloat(state.linkyInstant) || 0;
+      if (pwr >= 7.0) {
+        // Red Alert (Sur-puissance critique / Délestage imminent)
+        return { bg: '#120406', dim: [110, 20, 20], mid: [239, 68, 68], bright: [255, 225, 225] };
+      } else if (pwr >= 4.5 || state.heating === 1) {
+        // Amber Warm (Forte charge / Chauffe active)
+        return { bg: '#0d0802', dim: [95, 52, 12], mid: [245, 158, 11], bright: [255, 248, 220] };
+      }
+      // Classic Jarvis Electric Cyan (Nominal)
+      return { bg: '#04101e', dim: [14, 74, 118], mid: [56, 189, 248], bright: [232, 250, 255] };
+    }
 
     const CODE_GLYPHS = ['.', ':', '1', 'I', '!', '0', 'l', '5', 'S', '6', '3', '9', '8', '0', '8', 'B'];
 
@@ -591,7 +598,8 @@
         }
       }
 
-      // 2. Clear canvas & Render Matrix Grid
+      // 2. Clear canvas & Render Matrix Grid (with dynamic alert palette)
+      const JARVIS_PALETTE = getLivePalette();
       ctx.fillStyle = JARVIS_PALETTE.bg;
       ctx.fillRect(0, 0, W, H);
 
@@ -603,6 +611,7 @@
 
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      ctx.font = '600 5px "JetBrains Mono", monospace';
 
       const tick = Math.floor(t * 9);
       const numGlyphs = CODE_GLYPHS.length;
@@ -684,8 +693,6 @@
               ? (Math.floor(seed * 100) + tick) % numGlyphs
               : Math.min(numGlyphs - 1, Math.floor(clamped * (numGlyphs - 1)));
             const ch = CODE_GLYPHS[glyphIdx];
-            const fontSize = Math.max(5, Math.round(cell * (0.70 + clamped * 0.35)));
-            ctx.font = (clamped > 0.58 ? '700 ' : '400 ') + fontSize + 'px "JetBrains Mono", monospace';
             ctx.fillText(ch, px, py);
           }
         }
@@ -987,7 +994,29 @@
     }
   }
 
-  function initHub() {
+  
+  // Linky Arc Reactor 10-Segment Dynamic LED Bar
+  function updateLinkyArcBar(kwVal) {
+    const container = document.getElementById('knx-linky-segments');
+    if (!container) return;
+    const segments = container.querySelectorAll('.knx-arc-segment');
+    const maxKw = 9.0; // Abonnement Linky 9 kVA
+    const activeCount = Math.min(10, Math.max(1, Math.ceil((kwVal / maxKw) * 10)));
+
+    segments.forEach((seg, idx) => {
+      seg.className = 'knx-arc-segment';
+      if (idx < activeCount) {
+        if (kwVal >= 7.0) {
+          seg.classList.add('active-red');
+        } else if (kwVal >= 4.5) {
+          seg.classList.add('active-amber');
+        } else {
+          seg.classList.add('active-cyan');
+        }
+      }
+    });
+  }
+function initHub() {
     const isPlan = window.location.search.indexOf('p=plan') !== -1;
     const isPlan4 = window.location.search.indexOf('plan_id=4') !== -1;
     const isPlan9 = window.location.search.indexOf('plan_id=9') !== -1;
@@ -1215,6 +1244,9 @@
             <span class="knx-terminal-sub">DOMOTIC CORE</span>
           </div>
           <div class="knx-terminal-clock" id="knx-jarvis-clock">--:--:--</div>
+          <button type="button" class="knx-card-toggle-btn" id="knx-term-collapse-btn" aria-label="Réduire / Agrandir" title="Toucher pour réduire / agrandir">
+            <svg class="knx-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
         </div>
 
         <!-- Center: 3D Neural Particle Sphere (The AI Mind) -->
@@ -1478,7 +1510,7 @@
       // 6. Météo & Climat
       if (text.includes('météo') || text.includes('température') || text.includes('quel temps') || text.includes('degrés')) {
         const temp = state.tempExt || '18';
-        const hum = state.humidity || '76';
+        const hum = state.humidityExt || state.humidity || '76';
         const vent = state.wind || '10';
         speakJarvis("Il fait actuellement " + temp + " degrés dehors avec " + hum + " pourcent d'humidité et un vent de " + vent + " kilomètres par heure.");
         return;
@@ -1501,93 +1533,7 @@
       speakJarvis("Ordre reçu : " + text + ". Exécution en cours, monsieur.");
     }
 
-    function initVoiceRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const voiceBar = document.getElementById('knx-voice-bar');
-      const voiceStatus = document.getElementById('knx-jarvis-voice-status');
-      const voiceSubStatus = document.getElementById('knx-ai-voice-status-sub');
-      const term = document.getElementById('knx-jarvis-terminal');
-
-      if (!SpeechRecognition) {
-        console.warn('[J.A.R.V.I.S.] Web Speech Recognition API not supported.');
-        if (voiceStatus) voiceStatus.textContent = 'COMMANDE VOCALE : NON DISPONIBLE';
-        return null;
-      }
-
-      const rec = new SpeechRecognition();
-      rec.lang = 'fr-FR';
-      rec.continuous = false;
-      rec.interimResults = true;
-      rec.maxAlternatives = 1;
-
-      rec.onstart = function() {
-        isListening = true;
-        if (term) term.classList.add('jarvis-listening');
-        if (voiceBar) voiceBar.classList.add('is-listening');
-        if (voiceStatus) {
-          voiceStatus.textContent = '🔴 ÉCOUTE EN COURS... PARLEZ';
-          voiceStatus.style.color = '#ff3366';
-        }
-        if (voiceSubStatus) {
-          voiceSubStatus.textContent = 'LISTENING // ACTIVE';
-          voiceSubStatus.style.color = '#ff3366';
-        }
-        if (window.playJarvisHaptic) window.playJarvisHaptic();
-      };
-
-      rec.onresult = function(event) {
-        let transcript = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          transcript += event.results[i][0].transcript;
-        }
-        transcript = transcript.trim();
-        if (voiceStatus) {
-          voiceStatus.textContent = '« ' + transcript.toUpperCase() + ' »';
-          voiceStatus.style.color = '#00f0ff';
-        }
-
-        if (event.results[0].isFinal) {
-          handleVoiceCommand(transcript);
-        }
-      };
-
-      rec.onerror = function(event) {
-        console.warn('[J.A.R.V.I.S.] Speech recognition error:', event.error);
-        isListening = false;
-        if (term) term.classList.remove('jarvis-listening');
-        if (voiceBar) voiceBar.classList.remove('is-listening');
-        if (voiceStatus) {
-          if (event.error === 'not-allowed') {
-            voiceStatus.textContent = 'MICRO NON AUTORISÉ (ACTIVER DANS NAVIGATEUR)';
-          } else {
-            voiceStatus.textContent = 'COMMANDE VOCALE : PRÊT (CLIQUEZ POUR PARLER)';
-          }
-          voiceStatus.style.color = '#38bdf8';
-        }
-        if (voiceSubStatus) {
-          voiceSubStatus.textContent = 'STANDBY // READY';
-          voiceSubStatus.style.color = '#38bdf8';
-        }
-      };
-
-      rec.onend = function() {
-        isListening = false;
-        if (term) term.classList.remove('jarvis-listening');
-        if (voiceBar) voiceBar.classList.remove('is-listening');
-        setTimeout(() => {
-          if (term && !term.classList.contains('jarvis-speaking') && voiceStatus) {
-            voiceStatus.textContent = 'COMMANDE VOCALE : PRÊT (CLIQUEZ POUR PARLER)';
-            voiceStatus.style.color = '#38bdf8';
-            if (voiceSubStatus) {
-              voiceSubStatus.textContent = 'STANDBY // READY';
-              voiceSubStatus.style.color = '#38bdf8';
-            }
-          }
-        }, 3500);
-      };
-
-      return rec;
-    }
+    
 
         window.testJarvisVoice = function(customPhrase) {
     const phrase = customPhrase || 'statut de la maison';
@@ -2200,6 +2146,7 @@
         if (el) el.textContent = state.linkyInstant;
         const mini = document.getElementById('knx-linky-mini');
         if (mini) mini.textContent = state.linkyInstant + ' kW';
+        updateLinkyArcBar(val);
       }
     });
 
@@ -2279,6 +2226,7 @@
             if (el) el.textContent = state.linkyInstant;
             const mini = document.getElementById('knx-linky-mini');
             if (mini) mini.textContent = state.linkyInstant + ' kW';
+            updateLinkyArcBar(v);
           }
         } else if (cid === CMDS.LINKY_CONSO_DAY) {
           const v = parseFloat(val);
