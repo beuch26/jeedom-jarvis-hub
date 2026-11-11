@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. // Matrice Biométrique Photoréaliste</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #020203;
+            color: #f4f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .hud-panel {
+            background: rgba(8, 9, 12, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+        }
+        .hud-btn {
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .hud-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.32);
+        }
+        .hud-btn.active {
+            background: #ffffff;
+            color: #040406;
+            border-color: #ffffff;
+            box-shadow: 0 0 22px rgba(255, 255, 255, 0.45);
+            font-weight: 600;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.16);
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 13px;
+            width: 13px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        }
+        .vignette {
+            background: radial-gradient(circle at 50% 46%, transparent 42%, rgba(0, 0, 0, 0.94) 100%);
+        }
+    </style>
+</head>
+<body class="relative w-screen h-screen flex items-center justify-center bg-black">
+
+    <!-- Main Output Canvas -->
+    <canvas id="mainCanvas" class="block w-full h-full"></canvas>
+
+    <!-- Subtle Optical Vignette -->
+    <div class="vignette pointer-events-none fixed inset-0 z-10"></div>
+
+    <!-- Top Telemetry Bar -->
+    <header class="fixed top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+        <div class="hud-panel px-4 py-2.5 rounded-xl flex items-center gap-3 pointer-events-auto">
+            <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="mono text-xs font-bold tracking-widest uppercase text-white">NEURAL MATRIX // 9.0</span>
+                    <span id="fpsCounter" class="mono text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white/80">60 FPS</span>
+                </div>
+                <p id="statusSub" class="mono text-[10px] text-neutral-400 tracking-wider">TRAMAGE PHOTORÉALISTE MULTI-ÉCHELLE & WARP UV ACTIFS</p>
+            </div>
+        </div>
+
+        <div class="hud-panel px-4 py-2 rounded-xl flex items-center gap-4 pointer-events-auto">
+            <div class="flex flex-col items-end">
+                <span class="mono text-[10px] uppercase tracking-widest text-neutral-400">État Synaptique</span>
+                <span id="voiceStateLabel" class="mono text-xs font-semibold text-white">VEILLE BIOMÉTRIQUE</span>
+            </div>
+            <div id="miniEq" class="flex items-end gap-1 h-5 w-16">
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-1.5"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-3"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-2"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-4"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-2"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-3"></div>
+                <div class="w-1 bg-white/80 rounded-full transition-all duration-75 h-1"></div>
+            </div>
+            <button id="toggleHudBtn" title="Afficher/Masquer l'interface" class="hud-btn p-2 rounded-lg text-white/80 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Subtitle / AI Speech Banner -->
+    <div id="speechBubble" class="fixed bottom-32 md:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-all duration-300 opacity-0 translate-y-2 max-w-lg w-[92%] text-center">
+        <div class="hud-panel px-5 py-3 rounded-2xl border border-white/20">
+            <p id="speechText" class="mono text-xs md:text-sm text-white tracking-wide leading-relaxed"></p>
+        </div>
+    </div>
+
+    <!-- Bottom Control Deck (Épuré & Direct) -->
+    <footer id="controlDeck" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-20 w-[94%] max-w-3xl transition-all duration-300">
+        <div class="hud-panel p-3 md:p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Actions Essentielles -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button id="btnSpeech" class="hud-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs mono">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                    <span>Parler (Voix IA)</span>
+                </button>
+
+                <button id="btnMic" class="hud-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs mono">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                    <span id="micLabel">Micro Live</span>
+                </button>
+
+                <button id="btnWebcam" class="hud-btn px-3 py-2 rounded-xl flex items-center gap-1.5 text-xs mono">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span>Webcam</span>
+                </button>
+            </div>
+
+            <!-- Réglages rapides & Couleurs -->
+            <div class="flex flex-wrap items-center gap-4">
+                <label class="flex items-center gap-2 mono text-[11px] text-neutral-300">
+                    <span>Finesse</span>
+                    <input id="densitySlider" type="range" min="12" max="16" step="1" value="15" class="w-20">
+                </label>
+
+                <div class="flex items-center gap-1.5">
+                    <button data-theme="noir" title="Noir & Blanc Argenté" class="theme-btn w-5 h-5 rounded-full bg-white border-2 border-white ring-2 ring-white/50 transition-transform hover:scale-110"></button>
+                    <button data-theme="jarvis" title="Bleu Jarvis" class="theme-btn w-5 h-5 rounded-full bg-cyan-400 border-2 border-cyan-200 opacity-70 hover:opacity-100 transition-transform hover:scale-110"></button>
+                    <button data-theme="matrix" title="Vert Matrix" class="theme-btn w-5 h-5 rounded-full bg-emerald-400 border-2 border-emerald-200 opacity-70 hover:opacity-100 transition-transform hover:scale-110"></button>
+                    <button data-theme="amber" title="Or" class="theme-btn w-5 h-5 rounded-full bg-amber-400 border-2 border-amber-200 opacity-70 hover:opacity-100 transition-transform hover:scale-110"></button>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Hidden Webcam Video -->
+    <video id="webcamVideo" autoplay playsinline muted class="hidden"></video>
+
+    <script>
+        /**
+         * MOTEUR HYBRIDE PHOTO-ANATOMIQUE CALIBRÉ MANUELLEMENT AU PIXEL PRÈS
+         * - Le grain photographique studio (clair-obscur) fusionne avec un rig anatomique 3D
+         *   dont les coordonnées des yeux (G/D), des paupières, du nez et des lèvres sont
+         *   verrouillées exactement au même endroit.
+         * - Le regard, les paupières qui clignent et la bouche qui parle sont synthétisés
+         *   directement dans la carte de luminance avant d'être convertis en chiffres et points.
+         */
+
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        const bloomCanvas = document.createElement('canvas');
+        const bloomCtx = bloomCanvas.getContext('2d');
+
+        const MAP_W = 360;
+        const MAP_H = 460;
+        const baseSkinMap = new Float32Array(MAP_W * MAP_H); // Carte de peau clair-obscur (sans artefacts d'yeux/bouche figés)
+        const liveLumMap = new Float32Array(MAP_W * MAP_H);  // Carte dynamique recalculée à 60 FPS avec yeux/bouche/tête animés
+        const depthMap = new Float32Array(MAP_W * MAP_H);
+        const organicNoiseMap = new Float32Array(MAP_W * MAP_H);
+
+        const srcCanvas = document.createElement('canvas');
+        srcCanvas.width = MAP_W;
+        srcCanvas.height = MAP_H;
+        const srcCtx = srcCanvas.getContext('2d', { willReadFrequently: true });
+        const webcamVideo = document.getElementById('webcamVideo');
+
+        // Portrait féminin de face parfaitement symétrique pour un alignement 100% verrouillé
+        const STUDIO_PORTRAIT_URL = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=85';
+
+        // REPÈRES ANATOMIQUES VERROUILLÉS PAR MOI-MÊME (coordonnées normalisées [-1..1])
+        // Proportions affinées : yeux plus délicats et mieux espacés, nez fin, bouche harmonieuse
+        const RIG = {
+            leftEyeX: -0.178,
+            leftEyeY: -0.055,
+            rightEyeX: 0.178,
+            rightEyeY: -0.055,
+            eyeRadiusX: 0.078,
+            eyeRadiusY: 0.036,
+            noseX: 0.0,
+            noseY: 0.110,
+            mouthX: 0.0,
+            mouthY: 0.268,
+            mouthW: 0.168
+        };
+
+        const state = {
+            theme: 'noir',
+            cellSize: 6,
+            bloomStrength: 0.65,
+            contrast: 1.32,
+
+            mouseX: 0,
+            mouseY: 0,
+            lastInputTime: 0,
+            headYaw: 0,
+            headPitch: 0,
+            headRoll: 0,
+            gazeX: 0,
+            gazeY: 0,
+            saccadeX: 0,
+            saccadeY: 0,
+            nextSaccade: 0.8,
+            browRaise: 0,
+            microSmile: 0,
+
+            blink: 0,
+            nextBlink: 1.5,
+
+            isSpeaking: false,
+            isMic: false,
+            isWebcam: false,
+            mouthOpen: 0,
+            mouthWide: 0,
+            audioEnergy: 0,
+
+            scanY: 0,
+            time: 0
+        };
+
+        const THEMES = {
+            noir: {
+                bg: '#020203',
+                dim: [52, 56, 64],
+                mid: [168, 175, 186],
+                bright: [255, 255, 255]
+            },
+            jarvis: {
+                bg: '#01060b',
+                dim: [14, 74, 118],
+                mid: [56, 189, 248],
+                bright: [232, 250, 255]
+            },
+            matrix: {
+                bg: '#010703',
+                dim: [14, 88, 40],
+                mid: [52, 211, 105],
+                bright: [228, 255, 238]
+            },
+            amber: {
+                bg: '#070401',
+                dim: [108, 56, 12],
+                mid: [245, 158, 11],
+                bright: [255, 248, 220]
+            }
+        };
+
+        const CODE_GLYPHS = ['.', ':', '1', 'I', '!', '0', 'l', '5', 'S', '6', '3', '9', '8', '0', '8', 'B'];
+
+        function gauss(x, y, cx, cy, sx, sy) {
+            const dx = (x - cx) / sx;
+            const dy = (y - cy) / sy;
+            return Math.exp(-0.5 * (dx * dx + dy * dy));
+        }
+
+        function smoothstep(edge0, edge1, x) {
+            const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+            return t * t * (3 - 2 * t);
+        }
+
+        function hash2D(ix, iy) {
+            const n = Math.sin(ix * 127.1 + iy * 311.7) * 43758.5453123;
+            return n - Math.floor(n);
+        }
+
+        function noise2D(x, y) {
+            const ix = Math.floor(x);
+            const iy = Math.floor(y);
+            const fx = x - ix;
+            const fy = y - iy;
+            const ux = fx * fx * (3 - 2 * fx);
+            const uy = fy * fy * (3 - 2 * fy);
+            const a = hash2D(ix, iy);
+            const b = hash2D(ix + 1, iy);
+            const c = hash2D(ix, iy + 1);
+            const d = hash2D(ix + 1, iy + 1);
+            return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+        }
+
+        function fbm(x, y) {
+            let v = 0;
+            let amp = 0.5;
+            for (let i = 0; i < 3; i++) {
+                v += amp * noise2D(x, y);
+                x *= 2.03;
+                y *= 2.01;
+                amp *= 0.5;
+            }
+            return v;
+        }
+
+        for (let py = 0; py < MAP_H; py++) {
+            for (let px = 0; px < MAP_W; px++) {
+                organicNoiseMap[py * MAP_W + px] = fbm(px * 0.08, py * 0.08);
+            }
+        }
+
+        // ============================================================================
+        // 1. CONSTRUCTION DE LA PEAU ET DU RELIEF 3D SUR LES REPÈRES EXACTEMENT CALIBRÉS
+        // ============================================================================
+        function buildBaseSkinAndDepth(photoImg = null) {
+            let photoData = null;
+            if (photoImg) {
+                srcCtx.fillStyle = '#000';
+                srcCtx.fillRect(0, 0, MAP_W, MAP_H);
+                const iw = photoImg.width || 640;
+                const ih = photoImg.height || 800;
+                const scale = Math.max(MAP_W / iw, MAP_H / ih);
+                const dw = iw * scale;
+                const dh = ih * scale;
+                const ox = (MAP_W - dw) * 0.5;
+                const oy = (MAP_H - dh) * 0.42;
+                srcCtx.drawImage(photoImg, ox, oy, dw, dh);
+                photoData = srcCtx.getImageData(0, 0, MAP_W, MAP_H).data;
+            }
+
+            const heightField = new Float32Array(MAP_W * MAP_H);
+
+            for (let py = 0; py < MAP_H; py++) {
+                const ny = (py / MAP_H) * 2.0 - 1.0;
+                for (let px = 0; px < MAP_W; px++) {
+                    const nx = (px / MAP_W) * 2.0 - 1.0;
+                    const idx = py * MAP_W + px;
+
+                    // On ne perturbe jamais l'axe central X=0 pour éviter toute cassure de normale au milieu !
+                    const centerDamp = smoothstep(0.0, 0.08, Math.abs(nx));
+                    const x = nx + (organicNoiseMap[idx] - 0.5) * 0.006 * centerDamp;
+                    const y = ny;
+                    // Valeur absolue mathématiquement lisse et dérivable en 0 (supprime la couture noire centrale)
+                    const ax = Math.sqrt(x * x + 0.00025);
+
+                    // Ovale féminin doux et harmonieux (front arrondi, pommettes gracieuses, mâchoire fine)
+                    let faceHalfWidth = 0.58;
+                    if (y < -0.06) {
+                        const t = Math.max(0, (-0.06 - y) / 0.54);
+                        faceHalfWidth *= Math.pow(Math.max(0.01, 1.0 - t * t * 0.94), 0.68);
+                    } else if (y < 0.10) {
+                        faceHalfWidth += 0.016 * Math.sin(((y + 0.06) / 0.16) * Math.PI);
+                    } else {
+                        const t = Math.min(1.22, (y - 0.10) / 0.48);
+                        faceHalfWidth *= Math.max(0.02, 1.0 - 0.54 * Math.pow(t, 1.38) - 0.36 * Math.pow(t, 2.5));
+                    }
+
+                    const normX = ax / Math.max(0.04, faceHalfWidth);
+                    if (normX > 1.06 || y < -0.62 || y > 0.60) {
+                        heightField[idx] = 0;
+                        depthMap[idx] = 0;
+                        continue;
+                    }
+
+                    const headCylinder = Math.sqrt(Math.max(0, 1.0 - Math.min(1.0, normX * normX * 0.92)));
+                    const verticalDome = Math.sqrt(Math.max(0, 1.0 - Math.min(1.0, Math.pow(y / 0.63, 2) * 0.90)));
+                    let z = headCylinder * verticalDome * 0.72;
+
+                    // Front bombé plus doux et continu, relié à la glabelle (entre les sourcils)
+                    z += gauss(x, y, 0, -0.26, 0.28, 0.18) * 0.20;
+                    z += gauss(x, y, 0, -0.11, 0.055, 0.065) * 0.085;
+
+                    // Orbites délicates sans creuser excessivement la racine du nez
+                    z -= gauss(ax, y, 0.178, -0.055, 0.098, 0.052) * 0.115;
+                    z -= gauss(ax, y, 0.112, -0.065, 0.042, 0.036) * 0.048;
+
+                    // Nez fin, droit et gracieux avec arête continue depuis les sourcils
+                    const noseW = 0.023 + Math.max(0, (y + 0.14) * 0.048);
+                    if (y > -0.18 && y < 0.17) {
+                        const bridgeProfile = smoothstep(-0.18, -0.05, y) * smoothstep(0.16, 0.08, y);
+                        z += Math.exp(-(x * x) / (noseW * noseW * 1.4)) * bridgeProfile * 0.21;
+                        z += gauss(x, y, 0, 0.0, 0.072, 0.115) * 0.075;
+                    }
+                    z += gauss(x, y, 0, RIG.noseY, 0.040, 0.034) * 0.24;
+                    z += gauss(ax, y, 0.054, RIG.noseY + 0.020, 0.026, 0.021) * 0.10;
+                    z -= gauss(ax, y, 0.036, RIG.noseY + 0.035, 0.018, 0.011) * 0.115;
+
+                    // Pommettes hautes et galbe féminin continu jusqu'à la mâchoire
+                    z += gauss(ax, y, 0.195, 0.032, 0.145, 0.112) * 0.165;
+                    z += gauss(ax, y, 0.145, 0.145, 0.135, 0.125) * 0.135;
+                    z += gauss(ax, y, 0.115, 0.285, 0.115, 0.110) * 0.075;
+
+                    // Philtrum délicat & menton féminin doux (sans pli brutal au centre)
+                    z += gauss(ax, y, 0.022, 0.190, 0.018, 0.028) * 0.028;
+                    z -= gauss(x, y, 0, 0.190, 0.020, 0.028) * 0.018;
+                    z -= gauss(x, y, 0, 0.342, 0.085, 0.020) * 0.07;
+                    z += gauss(x, y, 0, 0.415, 0.082, 0.048) * 0.14;
+
+                    z += (organicNoiseMap[idx] - 0.5) * 0.004 * centerDamp;
+
+                    heightField[idx] = Math.max(0, z);
+                    depthMap[idx] = Math.max(0, Math.min(1.2, z * 1.15));
+                }
+            }
+
+            // Calcul de l'éclairage studio Clair-Obscur de la peau + Fusion de la texture photographique
+            const lx = 0.0, ly = -0.34, lz = 0.94;
+            for (let py = 1; py < MAP_H - 1; py++) {
+                const ny = (py / MAP_H) * 2.0 - 1.0;
+                for (let px = 1; px < MAP_W - 1; px++) {
+                    const nx = (px / MAP_W) * 2.0 - 1.0;
+                    const idx = py * MAP_W + px;
+                    const z = heightField[idx];
+                    if (z <= 0.001) {
+                        baseSkinMap[idx] = 0;
+                        continue;
+                    }
+
+                    const dzdx = (heightField[idx + 1] - heightField[idx - 1]) * 18.0;
+                    const dzdy = (heightField[idx + MAP_W] - heightField[idx - MAP_W]) * 18.0;
+                    const invLen = 1.0 / Math.sqrt(dzdx * dzdx + dzdy * dzdy + 1.0);
+                    const normNx = -dzdx * invLen;
+                    const normNy = -dzdy * invLen;
+                    const normNz = invLen;
+
+                    const diff = Math.max(0, normNx * lx + normNy * ly + normNz * lz);
+                    const specAngle = Math.max(0, normNx * 0.0 + normNy * -0.18 + normNz * 0.98);
+                    const spec = Math.pow(specAngle, 24.0) * 0.38;
+
+                    const ax = Math.sqrt(nx * nx + 0.00025);
+                    let ao = 1.0;
+                    ao -= gauss(ax, ny, 0.112, -0.065, 0.042, 0.034) * 0.24;
+                    // Ombre sous le nez resserrée et naturelle (supprime l'effet moustache noire)
+                    ao -= gauss(nx, ny, 0, RIG.noseY + 0.042, 0.052, 0.017) * 0.72;
+                    ao -= gauss(ax, ny, 0.036, RIG.noseY + 0.035, 0.019, 0.010) * 0.85;
+                    ao -= gauss(nx, ny, 0, 0.340, 0.072, 0.017) * 0.36;
+
+                    // Dégradé encore plus progressif et vaporeux sur les tempes, le haut du front et la mâchoire
+                    const edgeNoise = (organicNoiseMap[idx] - 0.5) * 0.075;
+                    const radialDist = Math.hypot(ax / 0.54, (ny - 0.02) / 0.58);
+                    const softVignette = smoothstep(1.06, 0.42, radialDist + edgeNoise * 0.55);
+                    const lateralFalloff = Math.pow(Math.max(0, 1.0 - Math.pow((ax + edgeNoise * 0.45) / 0.56, 1.85)), 1.75);
+                    const verticalFalloff = smoothstep(-0.56, -0.26, ny + edgeNoise) *
+                                            smoothstep(0.55, 0.30, ny - edgeNoise);
+
+                    let lum = (diff * 0.88 + spec) * Math.max(0, ao) * lateralFalloff * verticalFalloff * (0.35 + 0.65 * softVignette);
+
+                    // Éclats lumineux harmonieux et fondus sur le nez (sans faire de barre verticale rigide), les pommettes et le menton
+                    lum += gauss(nx, ny, 0, -0.02, 0.042, 0.095) * 0.24;
+                    lum += gauss(nx, ny, 0, RIG.noseY, 0.038, 0.032) * 0.46;
+                    lum += gauss(ax, ny, 0.150, 0.035, 0.095, 0.078) * 0.26;
+                    lum += gauss(ax, ny, 0.135, 0.175, 0.110, 0.095) * 0.19;
+                    lum += gauss(ax, ny, 0.105, 0.295, 0.095, 0.080) * 0.11;
+                    lum += gauss(nx, ny, 0, 0.410, 0.066, 0.038) * 0.21;
+
+                    // Si la photo studio est chargée, on injecte son grain de peau réel sur le front, le nez et les joues
+                    if (photoData) {
+                        const p = idx * 4;
+                        const photoL = (0.299 * photoData[p] + 0.587 * photoData[p + 1] + 0.114 * photoData[p + 2]) / 255.0;
+                        const eyeSafeZone = Math.max(
+                            gauss(nx, ny, RIG.leftEyeX, RIG.leftEyeY, 0.110, 0.060),
+                            gauss(nx, ny, RIG.rightEyeX, RIG.rightEyeY, 0.110, 0.060)
+                        );
+                        const mouthSafeZone = gauss(nx, ny, RIG.mouthX, RIG.mouthY, 0.19, 0.075);
+                        const blendPhoto = (1.0 - Math.min(1.0, eyeSafeZone + mouthSafeZone)) * 0.25 * lateralFalloff * verticalFalloff;
+                        lum = lum * (1.0 - blendPhoto) + Math.pow(photoL, 1.30) * 1.10 * blendPhoto;
+                    }
+
+                    baseSkinMap[idx] = Math.max(0, Math.min(1.25, lum));
+                }
+            }
+        }
+
+        function initPortraitAssets() {
+            buildBaseSkinAndDepth(null);
+            const img = new Image();
+            img.onload = () => {
+                if (!state.isWebcam) buildBaseSkinAndDepth(img);
+            };
+            img.onerror = () => {
+                const fallbackImg = new Image();
+                fallbackImg.crossOrigin = 'anonymous';
+                fallbackImg.onload = () => {
+                    if (!state.isWebcam) buildBaseSkinAndDepth(fallbackImg);
+                };
+                fallbackImg.src = STUDIO_PORTRAIT_URL;
+            };
+            img.src = 'jarvis_portrait.jpg';
+        }
+
+        // ============================================================================
+        // 2. SYNTHÈSE DYNAMIQUE TEMPS RÉEL (YEUX, PAUPIÈRES, REGARD, SOURCILS, LÈVRES)
+        // Ici, les yeux et la bouche ne sont pas une photo étirée : ils sont dessinés
+        // directement aux coordonnées RIG exactes avec leurs paupières et leur ouverture !
+        // ============================================================================
+        function sampleAnimatedFace(nx, ny) {
+            if (state.isWebcam) {
+                const mx = Math.floor((nx * 0.5 + 0.5) * (MAP_W - 1));
+                const my = Math.floor((ny * 0.5 + 0.5) * (MAP_H - 1));
+                if (mx < 0 || mx >= MAP_W || my < 0 || my >= MAP_H) return 0;
+                return baseSkinMap[my * MAP_W + mx];
+            }
+
+            // 1. Mouvement 3D de la tête (Respiration, Inclinaison Roll, Rotation Yaw & Pitch avec parallaxe)
+            const breath = Math.sin(state.time * 1.85) * 0.011;
+            const roll = state.headRoll * 0.085;
+            const cosR = Math.cos(roll);
+            const sinR = Math.sin(roll);
+            const rx = nx * cosR - (ny - 0.10) * sinR;
+            const ry = (nx * sinR + (ny - 0.10) * cosR) + 0.10 - breath;
+
+            const dMapX = Math.max(0, Math.min(MAP_W - 1, Math.floor((rx * 0.5 + 0.5) * (MAP_W - 1))));
+            const dMapY = Math.max(0, Math.min(MAP_H - 1, Math.floor((ry * 0.5 + 0.5) * (MAP_H - 1))));
+            const depth = depthMap[dMapY * MAP_W + dMapX];
+
+            const yaw = state.headYaw * 0.13;
+            const pitch = state.headPitch * 0.10;
+            const perspective = 1.0 + rx * yaw * 0.40 + ry * pitch * 0.24;
+
+            // Coordonnées intrinsèques sur le visage (après rotation 3D de la tête)
+            const fx = rx * perspective - yaw * (0.30 + depth * 0.88);
+            const fy = ry * perspective - pitch * (0.30 + depth * 0.78);
+
+            if (fx < -0.98 || fx > 0.98 || fy < -0.98 || fy > 0.98) return 0;
+
+            // Abaissé de la mâchoire inférieure quand elle parle (déplace le menton vers le bas)
+            let skinSampleY = fy;
+            if (fy > RIG.mouthY && state.mouthOpen > 0.01) {
+                const jawMask = gauss(fx, fy, 0, RIG.mouthY + 0.18, 0.28, 0.22);
+                skinSampleY -= state.mouthOpen * 0.055 * jawMask;
+            }
+
+            // Lecture bilinéaire de la peau de base
+            const mapX = (fx * 0.5 + 0.5) * (MAP_W - 1);
+            const mapY = (skinSampleY * 0.5 + 0.5) * (MAP_H - 1);
+            if (mapX < 1 || mapX >= MAP_W - 2 || mapY < 1 || mapY >= MAP_H - 2) return 0;
+
+            const x0 = Math.floor(mapX), y0 = Math.floor(mapY);
+            const tx = mapX - x0, ty = mapY - y0;
+            const bIdx = y0 * MAP_W + x0;
+            let lum = (baseSkinMap[bIdx] * (1 - tx) + baseSkinMap[bIdx + 1] * tx) * (1 - ty) +
+                      (baseSkinMap[bIdx + MAP_W] * (1 - tx) + baseSkinMap[bIdx + MAP_W + 1] * tx) * ty;
+
+            if (lum <= 0.001) return 0;
+
+            const afx = Math.abs(fx);
+
+            // 2. SOURCILS FÉMININS FINS ET ÉLÉGANTS (moins épais, joliment arqués)
+            const browArchY = -0.138 - state.browRaise * 0.018 - 0.018 * Math.sin(Math.min(1.0, Math.max(0, (afx - 0.07) / 0.21)) * Math.PI);
+            const browShadow = gauss(afx, fy, 0.182, browArchY, 0.095, 0.010);
+            lum *= (1.0 - browShadow * 0.62);
+            // Légère lumière sous l'arcade sourcilière
+            lum += gauss(afx, fy, 0.195, browArchY + 0.020, 0.078, 0.012) * 0.16;
+
+            // 3. YEUX EN AMANDE PROPORTIONNÉS + SCLÉROTIQUE CLAIRE + IRIS DÉTAILLÉ
+            const eyeCX = fx < 0 ? RIG.leftEyeX : RIG.rightEyeX;
+            const eyeCY = RIG.leftEyeY;
+            const edx = (afx - Math.abs(eyeCX)) / RIG.eyeRadiusX;
+            const edy = (fy - eyeCY) / RIG.eyeRadiusY;
+
+            if (Math.abs(edx) < 1.15 && Math.abs(edy) < 1.55) {
+                const outerLift = (afx - Math.abs(eyeCX)) * 0.15;
+                const openUpper = -0.88 + 0.76 * edx * edx - outerLift;
+                const openLower = 0.80 - 0.62 * edx * edx - outerLift * 0.5;
+
+                // Fermeture anatomique de la paupière supérieure vers la paupière inférieure
+                const closedLine = 0.20 - 0.14 * edx * edx - outerLift * 0.6;
+                const upperCurve = openUpper * (1.0 - state.blink) + closedLine * state.blink;
+                const lowerCurve = openLower * (1.0 - state.blink * 0.35) + closedLine * (state.blink * 0.35);
+
+                // Pli fin de la paupière mobile
+                const creaseCurve = upperCurve - 0.44 * (1.0 - state.blink * 0.55);
+                lum *= (1.0 - gauss(edx, edy, 0, creaseCurve, 0.85, 0.11) * 0.58);
+
+                // Lumière douce sur la paupière mobile supérieure
+                if (edy > creaseCurve && edy < upperCurve) {
+                    const lidDome = Math.sin(((edy - creaseCurve) / Math.max(0.05, upperCurve - creaseCurve)) * Math.PI);
+                    const horizLid = Math.max(0, 1.0 - edx * edx * 0.9);
+                    lum = lum * 0.55 + (0.42 + 0.24 * state.blink) * lidDome * horizLid;
+                }
+
+                // Intérieur de l'œil ouvert (Sclérotique bien visible + Iris + Pupille + Reflet vif)
+                if (Math.abs(edx) < 1.0 && edy >= upperCurve && edy <= lowerCurve && state.blink < 0.94) {
+                    const gazeShiftX = state.gazeX * 0.020;
+                    const gazeShiftY = state.gazeY * 0.011;
+                    const irisX = (fx - eyeCX - gazeShiftX) / 0.033;
+                    const irisY = (fy - eyeCY - gazeShiftY) / 0.033;
+                    const rIris = Math.hypot(irisX, irisY);
+
+                    const lashShadow = smoothstep(upperCurve, upperCurve + 0.45, edy);
+
+                    if (rIris < 1.0) {
+                        if (rIris < 0.34) {
+                            lum = 0.002; // Pupille noire ultra-profonde
+                        } else if (rIris > 0.78) {
+                            // Anneau limbique progressif et très contrasté pour un regard magnétique
+                            const limbalT = smoothstep(0.78, 0.96, rIris);
+                            lum = 0.28 * (1.0 - limbalT) + 0.015 * limbalT;
+                        } else {
+                            const angle = Math.atan2(irisY, irisX);
+                            const fibers = 0.5 + 0.5 * Math.sin(angle * 26.0);
+                            const lowerGlow = smoothstep(-0.20, 0.80, irisY) * 0.54;
+                            lum = (0.40 + fibers * 0.26 + lowerGlow) * lashShadow;
+                        }
+
+                        // Double reflet spéculaire blanc pur (Catchlight) haute intensité
+                        const catch1 = Math.hypot(irisX + 0.24, irisY + 0.24);
+                        const catch2 = Math.hypot(irisX - 0.24, irisY - 0.22);
+                        if (catch1 < 0.34) {
+                            lum = Math.max(lum, smoothstep(0.34, 0.08, catch1) * 1.65);
+                        } else if (catch2 < 0.19) {
+                            lum = Math.max(lum, smoothstep(0.19, 0.04, catch2) * 1.05);
+                        }
+                    } else {
+                        // Blanc de l'œil (sclérotique) doux avec ombrage sphérique aux coins
+                        const scleraVignette = Math.max(0.18, 1.0 - edx * edx * 0.62);
+                        lum = 0.60 * scleraVignette * lashShadow;
+                    }
+                }
+
+                // Ligne des cils supérieurs dense et veloutée
+                const distToLash = Math.abs(edy - upperCurve);
+                if (Math.abs(edx) < 1.03 && distToLash < 0.18) {
+                    const lashIntensity = (1.0 - distToLash / 0.18) * Math.max(0, 1.0 - Math.pow(edx, 4) * 0.55);
+                    lum *= (1.0 - lashIntensity * 0.93);
+                }
+
+                // Rebord humide lumineux de la paupière inférieure (waterline)
+                if (Math.abs(edx) < 0.94 && edy > lowerCurve && edy <= lowerCurve + 0.22) {
+                    const rimT = 1.0 - (edy - lowerCurve) / 0.22;
+                    const horizFade = Math.max(0, 1.0 - edx * edx);
+                    lum = Math.max(lum, rimT * horizFade * 0.84 * (1.0 - state.blink * 0.6));
+                }
+            }
+
+            // 4. LÈVRES & BOUCHE ARTICULÉE EN TEMPS RÉEL (100% ALIGNÉES SUR RIG.mouthX, RIG.mouthY)
+            const mouthWidth = RIG.mouthW * (1.0 + (state.mouthWide - 0.25) * 0.14 * state.mouthOpen + state.microSmile * 0.04);
+            const mx = (fx - RIG.mouthX) / mouthWidth;
+            const my = fy - RIG.mouthY;
+
+            if (Math.abs(mx) < 1.22 && my > -0.075 && my < 0.115) {
+                const horizEnv = Math.max(0, 1.0 - mx * mx);
+                const smileLift = -state.microSmile * 0.010 * mx * mx;
+                const cupidWave = 0.009 * Math.cos(mx * Math.PI * 1.85) * Math.exp(-mx * mx * 2.8);
+
+                // Demi-ouverture verticale de la bouche quand elle parle
+                const halfGap = state.mouthOpen * 0.032 * Math.pow(horizEnv, 0.85);
+                const upperLipInnerY = cupidWave + smileLift - halfGap * 0.35;
+                const lowerLipInnerY = cupidWave + smileLift + halfGap * 1.15;
+
+                if (my >= upperLipInnerY && my <= lowerLipInnerY && Math.abs(mx) < 0.98 && halfGap > 0.002) {
+                    // Cavité buccale ouverte : sombre avec léger reflet subtil des dents supérieures
+                    const teethZone = smoothstep(upperLipInnerY + 0.014, upperLipInnerY + 0.002, my) * Math.exp(-mx * mx * 2.5);
+                    lum = 0.02 + teethZone * 0.26 * Math.min(1.0, state.mouthOpen * 2.2);
+                } else if (my < upperLipInnerY && my > upperLipInnerY - 0.036 * horizEnv) {
+                    // Lèvre supérieure (ombrée en clair-obscur)
+                    const tUpper = (upperLipInnerY - my) / Math.max(0.005, 0.036 * horizEnv);
+                    const lipShade = Math.sin(tUpper * Math.PI);
+                    lum = lum * (1.0 - horizEnv * 0.65) + 0.14 * lipShade * horizEnv;
+                } else if (my > lowerLipInnerY && my < lowerLipInnerY + 0.046 * horizEnv) {
+                    // Lèvre inférieure charnue avec fort éclat lumineux central (comme sur ton image de départ)
+                    const tLower = (my - lowerLipInnerY) / Math.max(0.005, 0.046 * horizEnv);
+                    const lowerDome = Math.sin(tLower * Math.PI);
+                    const glossHighlight = Math.exp(-mx * mx * 3.8) * Math.exp(-Math.pow(tLower - 0.42, 2) * 10.0);
+                    lum = lum * (1.0 - horizEnv * 0.5) + (0.34 * lowerDome + 0.58 * glossHighlight) * horizEnv;
+                }
+
+                // Fente labiale noire quand la bouche est fermée ou aux commissures
+                const slitDist = Math.min(Math.abs(my - upperLipInnerY), Math.abs(my - lowerLipInnerY));
+                if (slitDist < 0.008 && Math.abs(mx) < 1.02) {
+                    const slitDark = (1.0 - slitDist / 0.008) * Math.max(0, 1.0 - Math.pow(mx, 4) * 0.7);
+                    lum *= (1.0 - slitDark * 0.92);
+                }
+            }
+
+            // Éclairage dynamique subtil quand la tête tourne
+            const dynamicLight = 1.0 + fx * (-yaw * 0.95) + fy * (-pitch * 0.55);
+            return Math.max(0, lum * dynamicLight);
+        }
+
+        // ============================================================================
+        // 5. GRILLE MATRICIELLE & COLONNES DE FLUX VERTICALES
+        // ============================================================================
+        let cols = 0;
+        let rows = 0;
+        let cellSeeds = new Float32Array(0);
+        let rowBandMask = new Float32Array(0);
+        let colStreamProfile = new Float32Array(0);
+        let rainDrops = [];
+
+        function initMatrixGrid() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const w = Math.max(320, window.innerWidth);
+            const h = Math.max(320, window.innerHeight);
+
+            canvas.width = Math.floor(w * dpr);
+            canvas.height = Math.floor(h * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            bloomCanvas.width = Math.max(64, Math.floor(w / 4));
+            bloomCanvas.height = Math.max(64, Math.floor(h / 4));
+
+            const cell = Math.max(5, state.cellSize);
+            cols = Math.ceil(w / cell);
+            rows = Math.ceil(h / cell);
+
+            cellSeeds = new Float32Array(cols * rows);
+            for (let i = 0; i < cellSeeds.length; i++) {
+                cellSeeds[i] = Math.random();
+            }
+
+            // Masque de bandes horizontales de code (visible sur le front et les joues de l'image de référence)
+            rowBandMask = new Float32Array(rows);
+            // Masque de bandes horizontales de code très doux
+            rowBandMask = new Float32Array(rows);
+            for (let r = 0; r < rows; r++) {
+                const n = noise2D(0.35, r * 0.35);
+                rowBandMask[r] = 0.92 + 0.08 * n;
+            }
+
+            // Suppression de toute modulation verticale de colonne sur le visage
+            colStreamProfile = new Float32Array(cols);
+            for (let c = 0; c < cols; c++) {
+                colStreamProfile[c] = 1.0;
+            }
+
+            rainDrops = new Array(cols).fill(0).map(() => ({
+                y: Math.random() * rows,
+                speed: 0.14 + Math.random() * 0.38,
+                len: 10 + Math.floor(Math.random() * 24),
+                strength: 0.25 + Math.random() * 0.65
+            }));
+        }
+
+        // ============================================================================
+        // 6. BOUCLE DE RENDU MULTI-ÉCHELLE (CODE PACKETS + HALFTONE DOTS + BLOOM)
+        // ============================================================================
+        let lastTime = performance.now();
+        let frames = 0;
+        let lastFpsTick = performance.now();
+
+        function update(now) {
+            const dt = Math.min(0.05, (now - lastTime) / 1000);
+            lastTime = now;
+            state.time += dt;
+
+            frames++;
+            if (now - lastFpsTick > 500) {
+                document.getElementById('fpsCounter').textContent = `${Math.round((frames * 1000) / (now - lastFpsTick))} FPS`;
+                frames = 0;
+                lastFpsTick = now;
+            }
+
+            if (state.isWebcam && webcamVideo.readyState >= 2) {
+                srcCtx.save();
+                srcCtx.translate(MAP_W, 0);
+                srcCtx.scale(-1, 1);
+                srcCtx.drawImage(webcamVideo, 0, 0, MAP_W, MAP_H);
+                srcCtx.restore();
+                const rgba = srcCtx.getImageData(0, 0, MAP_W, MAP_H).data;
+                for (let i = 0; i < MAP_W * MAP_H; i++) {
+                    const p = i * 4;
+                    const l = (0.299 * rgba[p] + 0.587 * rgba[p + 1] + 0.114 * rgba[p + 2]) / 255.0;
+                    baseSkinMap[i] = Math.pow(l, 1.35) * 1.22;
+                }
+            }
+
+            // Mouvement de tête autonome ultra-naturel (même sans bouger la souris !) + Réactivité au curseur
+            const t = state.time;
+            const idleBlend = Math.min(1.0, Math.max(0.25, (t - state.lastInputTime) / 2.2));
+
+            // Oscillations organiques multi-fréquences (posture vivante, hochements pendant la parole)
+            const speechNodPitch = state.isSpeaking ? (Math.sin(t * 6.2) * 0.16 + Math.cos(t * 3.7) * 0.12) : 0;
+            const speechTurnYaw = state.isSpeaking ? Math.sin(t * 2.1) * 0.18 : 0;
+
+            const autoYaw = (Math.sin(t * 0.72) * 0.42 + Math.cos(t * 1.18) * 0.24) * idleBlend + speechTurnYaw;
+            const autoPitch = (Math.sin(t * 0.54 + 1.2) * 0.30 + Math.sin(t * 1.45) * 0.14) * idleBlend + speechNodPitch;
+            const autoRoll = Math.sin(t * 0.48 + 0.6) * 0.38 + (state.isSpeaking ? Math.sin(t * 2.8) * 0.22 : 0);
+
+            const targetYaw = state.mouseX * (1.0 - idleBlend * 0.55) + autoYaw;
+            const targetPitch = state.mouseY * (1.0 - idleBlend * 0.55) + autoPitch;
+            const targetRoll = state.mouseX * 0.35 + autoRoll;
+
+            state.headYaw += (targetYaw - state.headYaw) * 4.2 * dt;
+            state.headPitch += (targetPitch - state.headPitch) * 4.2 * dt;
+            state.headRoll += (targetRoll - state.headRoll) * 3.6 * dt;
+
+            // Saccades oculaires vives et naturelles (les yeux bougent plus vite que la tête)
+            if (t > state.nextSaccade) {
+                state.saccadeX = (Math.random() - 0.5) * 0.65;
+                state.saccadeY = (Math.random() - 0.5) * 0.42;
+                state.nextSaccade = t + 0.55 + Math.random() * 1.65;
+            }
+
+            const targetGazeX = state.mouseX * 0.85 + state.saccadeX + autoYaw * 0.55;
+            const targetGazeY = state.mouseY * 0.85 + state.saccadeY + autoPitch * 0.45;
+            state.gazeX += (targetGazeX - state.gazeX) * 14.0 * dt;
+            state.gazeY += (targetGazeY - state.gazeY) * 14.0 * dt;
+
+            // Micro-expressions autonomes (sourcils & léger sourire respiratoire)
+            const targetBrow = (state.isSpeaking ? 0.45 + state.audioEnergy * 0.55 : 0.18 * Math.sin(t * 0.9)) + (state.blink > 0.2 ? -0.25 : 0);
+            state.browRaise += (targetBrow - state.browRaise) * 8.0 * dt;
+            state.microSmile = 0.25 + 0.25 * Math.sin(t * 0.65) + (state.isSpeaking ? 0.2 : 0);
+
+            // Clignement des paupières franc et réaliste (avec doubles clignements occasionnels)
+            if (t > state.nextBlink) {
+                const phase = (t - state.nextBlink) / 0.16;
+                if (phase < 1.0) {
+                    state.blink = Math.pow(Math.sin(phase * Math.PI), 0.75);
+                } else {
+                    state.blink = 0;
+                    state.nextBlink = t + (Math.random() < 0.24 ? 0.20 : 2.1 + Math.random() * 3.2);
+                }
+            }
+
+            // Onde de scan
+            if (state.scanY >= 0) {
+                state.scanY += dt * 0.65;
+                if (state.scanY > 1.15) state.scanY = -1;
+            }
+
+            // Audio & Parole
+            let targetOpen = 0;
+            let targetWide = 0;
+            if (state.isMic && analyser && freqData) {
+                analyser.getByteFrequencyData(freqData);
+                let sum = 0;
+                for (let i = 1; i < 40; i++) sum += freqData[i];
+                const avg = sum / 39 / 255;
+                state.audioEnergy = Math.min(1.0, avg * 2.6);
+                targetOpen = Math.min(1.0, Math.max(0, (avg - 0.03) * 3.1));
+                targetWide = Math.min(1.0, avg * 1.5);
+            } else if (state.isSpeaking) {
+                const t = state.time * 14.5;
+                const syll = Math.max(0, Math.sin(t) * 0.55 + Math.sin(t * 0.43) * 0.5 + Math.cos(t * 1.7) * 0.35);
+                const pause = Math.sin(state.time * 2.7) > -0.65 ? 1.0 : 0.05;
+                targetOpen = Math.min(0.95, syll * pause);
+                targetWide = Math.max(0, Math.sin(t * 0.6)) * 0.65 * pause;
+                state.audioEnergy = targetOpen * 0.85;
+            } else {
+                state.audioEnergy *= 0.86;
+            }
+
+            state.mouthOpen += (targetOpen - state.mouthOpen) * 18 * dt;
+            state.mouthWide += (targetWide - state.mouthWide) * 14 * dt;
+
+            // Égaliseur HUD
+            const bars = document.querySelectorAll('#miniEq > div');
+            bars.forEach((b, i) => {
+                const h = state.audioEnergy > 0.03
+                    ? 4 + Math.floor(Math.abs(Math.sin(state.time * 13 + i)) * state.audioEnergy * 16)
+                    : 3 + Math.floor(Math.abs(Math.sin(state.time * 2 + i * 0.8)) * 3);
+                b.style.height = `${Math.min(20, h)}px`;
+            });
+
+            // Avancement de la pluie de code verticale
+            for (let c = 0; c < cols; c++) {
+                const drop = rainDrops[c];
+                drop.y += drop.speed * (0.45 + state.audioEnergy * 0.65);
+                if (drop.y - drop.len > rows) {
+                    drop.y = -Math.random() * 15;
+                }
+            }
+        }
+
+        function render() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            if (cols <= 0 || rows <= 0) initMatrixGrid();
+
+            const palette = THEMES[state.theme] || THEMES.noir;
+            const cell = state.cellSize;
+
+            ctx.fillStyle = palette.bg;
+            ctx.fillRect(0, 0, w, h);
+
+            // Ratio facial humain équilibré (plus large et moins étiré verticalement)
+            const portraitH = Math.min(h * 0.88, w * 1.05);
+            const portraitW = portraitH * 0.94;
+            const centerX = w * 0.5;
+            const centerY = h * 0.48;
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const tick = Math.floor(state.time * 9);
+            const numGlyphs = CODE_GLYPHS.length;
+            const isRefMode = state.renderMode === 'reference';
+            const isDotsMode = state.renderMode === 'dots';
+
+            for (let c = 0; c < cols; c++) {
+                const px = c * cell + cell * 0.5;
+                const nx = (px - centerX) / (portraitW * 0.5);
+                const colFactor = colStreamProfile[c];
+                const drop = rainDrops[c];
+
+                for (let r = 0; r < rows; r++) {
+                    const py = r * cell + cell * 0.5;
+                    const ny = (py - centerY) / (portraitH * 0.5);
+                    const cellIdx = r * cols + c;
+                    const seed = cellSeeds[cellIdx];
+
+                    // Luminance anatomique calculée en temps réel avec yeux/paupières/lèvres 100% alignés
+                    let rawLum = sampleAnimatedFace(nx, ny);
+
+                    // Application du contraste Clair-Obscur
+                    let faceLum = rawLum > 0.005 ? Math.pow(rawLum, state.contrast) * 1.22 : 0;
+
+                    // Texture 100 % homogène sur le visage (aucune coupure ni barre verticale au milieu)
+                    const highlightSmooth = smoothstep(0.25, 0.70, faceLum);
+                    faceLum *= (rowBandMask[r] * (1.0 - highlightSmooth) + highlightSmooth);
+
+                    // Pluie de données cantonnée strictement à l'extérieur du visage (jamais au centre !)
+                    const distDrop = drop.y - r;
+                    let rainLum = 0;
+                    if (distDrop >= 0 && distDrop < drop.len) {
+                        rainLum = (1.0 - distDrop / drop.len) * drop.strength;
+                    }
+                    const distFromFaceCenter = Math.hypot(nx / 0.62, ny / 0.66);
+                    const outsideFaceMask = smoothstep(0.78, 1.18, distFromFaceCenter);
+                    const ambientRain = rainLum * 0.18 * outsideFaceMask * Math.exp(-nx * nx * 0.45);
+
+                    let totalLum = faceLum > 0.025
+                        ? faceLum
+                        : ambientRain * (seed > 0.48 ? 1.0 : 0.0);
+
+                    // Onde de scan biométrique
+                    if (state.scanY >= 0) {
+                        const dScan = Math.abs((r / rows) - state.scanY);
+                        if (dScan < 0.035) {
+                            totalLum += (1.0 - dScan / 0.035) * (faceLum > 0.02 ? 0.85 : 0.22);
+                        }
+                    }
+
+                    if (totalLum < 0.032) continue;
+
+                    const clamped = Math.min(1.0, totalLum);
+
+                    // Calcul de la couleur
+                    let cr, cg, cb, alpha;
+                    if (totalLum > 0.76) {
+                        cr = palette.bright[0];
+                        cg = palette.bright[1];
+                        cb = palette.bright[2];
+                        alpha = Math.min(1.0, 0.82 + clamped * 0.18);
+                    } else if (totalLum > 0.28) {
+                        const t = (totalLum - 0.28) / 0.48;
+                        cr = Math.round(palette.mid[0] + (palette.bright[0] - palette.mid[0]) * t);
+                        cg = Math.round(palette.mid[1] + (palette.bright[1] - palette.mid[1]) * t);
+                        cb = Math.round(palette.mid[2] + (palette.bright[2] - palette.mid[2]) * t);
+                        alpha = 0.48 + clamped * 0.50;
+                    } else {
+                        const t = totalLum / 0.28;
+                        cr = Math.round(palette.dim[0] + (palette.mid[0] - palette.dim[0]) * t);
+                        cg = Math.round(palette.dim[1] + (palette.mid[1] - palette.dim[1]) * t);
+                        cb = Math.round(palette.dim[2] + (palette.mid[2] - palette.dim[2]) * t);
+                        alpha = 0.20 + clamped * 0.58;
+                    }
+
+                    ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha.toFixed(2)})`;
+
+                    // ====================================================================
+                    // TRAMAGE MULTI-ÉCHELLE FIDÈLE À L'IMAGE DE RÉFÉRENCE
+                    // ====================================================================
+                    // Transition progressive (mixte) entre les chiffres dans les demi-teintes
+                    // et la trame Halftone de micro-points dans les hautes lumières anatomiques.
+                    const dither = (seed - 0.5) * 0.24;
+                    const halftoneBlend = smoothstep(0.48, 0.72, totalLum + dither);
+
+                    if (halftoneBlend > 0.5) {
+                        const step = cell * 0.48;
+                        const dotSz = Math.max(1.25, cell * (0.28 + 0.10 * halftoneBlend) * Math.pow(clamped, 0.72));
+                        const half = dotSz * 0.5;
+                        ctx.fillRect(px - step * 0.5 - half, py - step * 0.5 - half, dotSz, dotSz);
+                        ctx.fillRect(px + step * 0.5 - half, py - step * 0.5 - half, dotSz * 0.94, dotSz * 0.94);
+                        ctx.fillRect(px - step * 0.5 - half, py + step * 0.5 - half, dotSz * 0.94, dotSz * 0.94);
+                        if (totalLum > 0.58 || seed > 0.20) {
+                            ctx.fillRect(px + step * 0.5 - half, py + step * 0.5 - half, dotSz, dotSz);
+                        }
+                    } else if (totalLum < 0.16) {
+                        // Fines poussières lumineuses et pluie de données sur les contours sombres
+                        const s = Math.max(1.1, cell * 0.22);
+                        ctx.fillRect(px - s * 0.5, py - s * 0.5, s, s * (seed > 0.52 ? 1.75 : 1.0));
+                    } else {
+                        // Séquences de petits chiffres condensés ('1','0','8','6','5','S','I',':')
+                        const glyphIdx = seed > 0.95
+                            ? (Math.floor(seed * 100) + tick) % numGlyphs
+                            : Math.min(numGlyphs - 1, Math.floor(clamped * (numGlyphs - 1)));
+                        const ch = CODE_GLYPHS[glyphIdx];
+                        const fontSize = Math.max(6, Math.round(cell * (0.70 + clamped * 0.35)));
+                        ctx.font = `${clamped > 0.58 ? '700' : '400'} ${fontSize}px "JetBrains Mono", monospace`;
+                        ctx.fillText(ch, px, py);
+                    }
+                }
+            }
+
+            // Passe finale : Bloom / Glow optique doux sur les hautes lumières (arête du nez, front, reflets des pupilles)
+            if (state.bloomStrength > 0.02) {
+                try {
+                    bloomCtx.clearRect(0, 0, bloomCanvas.width, bloomCanvas.height);
+                    bloomCtx.filter = 'blur(7px) brightness(1.3)';
+                    bloomCtx.drawImage(canvas, 0, 0, bloomCanvas.width, bloomCanvas.height);
+
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'screen';
+                    ctx.globalAlpha = state.bloomStrength * (0.48 + state.audioEnergy * 0.18);
+                    ctx.drawImage(bloomCanvas, 0, 0, w, h);
+                    ctx.restore();
+                } catch (e) {}
+            }
+        }
+
+        function loop(now) {
+            update(now);
+            render();
+            requestAnimationFrame(loop);
+        }
+
+        // ============================================================================
+        // 7. GESTION DES INTERACTIONS (INTERFACE ÉPURÉE)
+        // ============================================================================
+        let audioCtx = null;
+        let analyser = null;
+        let micStream = null;
+        let webcamStream = null;
+        let freqData = null;
+        let speechTimer = null;
+
+        const PHRASES = [
+            "Bonjour. Mes repères oculaires et vocaux sont désormais verrouillés au millimètre près sur ma matrice.",
+            "Je peux suivre votre regard, cligner des yeux naturellement et vous répondre en temps réel.",
+            "Activez votre microphone si vous souhaitez que ma structure de points réagisse directement à votre voix."
+        ];
+        let phraseIdx = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            state.mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            state.mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+            state.lastInputTime = state.time;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                state.mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+                state.mouseY = (e.touches[0].clientY / window.innerHeight) * 2 - 1;
+                state.lastInputTime = state.time;
+            }
+        }, { passive: true });
+
+        canvas.addEventListener('click', () => {
+            state.nextBlink = state.time;
+        });
+
+        window.addEventListener('resize', initMatrixGrid);
+
+        // Sélecteur de Thème Couleur
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.theme-btn').forEach(b => {
+                    b.classList.remove('ring-2', 'ring-white/50', 'opacity-100');
+                    b.classList.add('opacity-70');
+                });
+                btn.classList.remove('opacity-70');
+                btn.classList.add('ring-2', 'ring-white/50', 'opacity-100');
+                state.theme = btn.dataset.theme;
+            });
+        });
+
+        // Finesse de la grille
+        document.getElementById('densitySlider').addEventListener('input', (e) => {
+            state.cellSize = 21 - parseInt(e.target.value, 10);
+            initMatrixGrid();
+        });
+
+        // Synthèse Vocale IA
+        const btnSpeech = document.getElementById('btnSpeech');
+        const speechBubble = document.getElementById('speechBubble');
+        const speechText = document.getElementById('speechText');
+        const voiceStateLabel = document.getElementById('voiceStateLabel');
+
+        btnSpeech.addEventListener('click', () => {
+            if (state.isSpeaking) {
+                stopSpeech();
+            } else {
+                startSpeech();
+            }
+        });
+
+        function startSpeech() {
+            state.isSpeaking = true;
+            btnSpeech.classList.add('active');
+            voiceStateLabel.textContent = 'SYNTHÈSE VOCALE FÉMININE';
+
+            const text = PHRASES[phraseIdx % PHRASES.length];
+            phraseIdx++;
+
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.cancel();
+                    const utter = new SpeechSynthesisUtterance(text);
+                    utter.lang = 'fr-FR';
+                    // Sélection prioritaire d'une voix féminine française naturelle (Amélie, Audrey, Julie, Denise, Google Français...)
+                    const voices = window.speechSynthesis.getVoices();
+                    const frVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('fr'));
+                    const femaleVoice = frVoices.find(v => /amelie|amélie|audrey|julie|denise|hortense|eloise|éloïse|claire|marie|brigitte|chloe|siri|female|femme/i.test(v.name)) || frVoices[0];
+                    if (femaleVoice) utter.voice = femaleVoice;
+                    utter.pitch = 1.12;
+                    utter.rate = 1.02;
+                    window.speechSynthesis.speak(utter);
+                } catch (e) {}
+            }
+
+            speechText.textContent = '';
+            speechBubble.classList.remove('opacity-0', 'translate-y-2');
+
+            let i = 0;
+            clearInterval(speechTimer);
+            speechTimer = setInterval(() => {
+                if (!state.isSpeaking) {
+                    clearInterval(speechTimer);
+                    return;
+                }
+                if (i < text.length) {
+                    speechText.textContent += text[i];
+                    i++;
+                } else {
+                    clearInterval(speechTimer);
+                    setTimeout(() => { if (state.isSpeaking) stopSpeech(); }, 1000);
+                }
+            }, 38);
+        }
+
+        function stopSpeech() {
+            state.isSpeaking = false;
+            btnSpeech.classList.remove('active');
+            if ('speechSynthesis' in window) {
+                try { window.speechSynthesis.cancel(); } catch (e) {}
+            }
+            if (!state.isMic) voiceStateLabel.textContent = 'VEILLE BIOMÉTRIQUE';
+            speechBubble.classList.add('opacity-0', 'translate-y-2');
+            clearInterval(speechTimer);
+        }
+
+        // Microphone Temps Réel
+        const btnMic = document.getElementById('btnMic');
+        const micLabel = document.getElementById('micLabel');
+
+        btnMic.addEventListener('click', async () => {
+            if (state.isMic) {
+                stopMic();
+                return;
+            }
+            try {
+                stopSpeech();
+                micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!audioCtx) audioCtx = new Ctx();
+                if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+                const src = audioCtx.createMediaStreamSource(micStream);
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 256;
+                analyser.smoothingTimeConstant = 0.72;
+                src.connect(analyser);
+                freqData = new Uint8Array(analyser.frequencyBinCount);
+
+                state.isMic = true;
+                btnMic.classList.add('active');
+                micLabel.textContent = 'Micro Actif';
+                voiceStateLabel.textContent = 'MODULATION MICRO LIVE';
+            } catch (e) {
+                startSpeech();
+            }
+        });
+
+        function stopMic() {
+            state.isMic = false;
+            if (micStream) {
+                micStream.getTracks().forEach(t => t.stop());
+                micStream = null;
+            }
+            btnMic.classList.remove('active');
+            micLabel.textContent = 'Micro Temps Réel';
+            voiceStateLabel.textContent = 'VEILLE BIOMÉTRIQUE';
+        }
+
+        // Webcam Live
+        const btnWebcam = document.getElementById('btnWebcam');
+        btnWebcam.addEventListener('click', async () => {
+            if (state.isWebcam) {
+                stopWebcam();
+                initPortraitAssets();
+                return;
+            }
+            try {
+                webcamStream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
+                    audio: false
+                });
+                webcamVideo.srcObject = webcamStream;
+                await webcamVideo.play();
+                state.isWebcam = true;
+                btnWebcam.classList.add('active');
+                state.scanY = 0;
+            } catch (e) {
+                voiceStateLabel.textContent = 'WEBCAM INDISPONIBLE';
+            }
+        });
+
+        function stopWebcam() {
+            state.isWebcam = false;
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(t => t.stop());
+                webcamStream = null;
+            }
+            btnWebcam.classList.remove('active');
+        }
+
+        // Masquer / Afficher le HUD
+        const toggleHudBtn = document.getElementById('toggleHudBtn');
+        const controlDeck = document.getElementById('controlDeck');
+        let hudShown = true;
+        toggleHudBtn.addEventListener('click', () => {
+            hudShown = !hudShown;
+            controlDeck.classList.toggle('opacity-0', !hudShown);
+            controlDeck.classList.toggle('translate-y-8', !hudShown);
+            controlDeck.classList.toggle('pointer-events-none', !hudShown);
+        });
+
+        // Démarrage immédiat
+        initMatrixGrid();
+        initPortraitAssets();
+        state.scanY = 0;
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>

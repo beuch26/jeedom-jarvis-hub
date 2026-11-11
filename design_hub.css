@@ -1,0 +1,3931 @@
+﻿/* ==========================================================================
+   KNX ADVANCED GLASSMORPHISM HUB - TABLET & DESKTOP RESPONSIVE DESIGN (V4)
+   Ultra-Modern Responsive Layout / Zero AI-Slop / True Anti-Collision System
+   ========================================================================== */
+
+#knx-design-hub {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 9990 !important;
+}
+
+#knx-design-hub * {
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   LINKY TELEMETRY CARD (TOP-LEFT) - COMPACT & COLLAPSIBLE
+   -------------------------------------------------------------------------- */
+.knx-linky-card {
+  pointer-events: auto;
+  position: fixed;
+  top: 70px;
+  left: 24px;
+  width: 250px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 14px 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 900;
+}
+
+.knx-linky-card:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+.knx-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.knx-linky-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.knx-card-toggle-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 2px 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.knx-card-toggle-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.knx-toggle-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+/* Collapsed Mini Preview */
+.knx-collapsed-preview {
+  display: none;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.knx-linky-card.collapsed {
+  width: auto;
+  min-width: 170px;
+  max-width: 220px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.88);
+}
+
+.knx-linky-card.collapsed .knx-card-body {
+  display: none !important;
+}
+
+.knx-linky-card.collapsed .knx-collapsed-preview {
+  display: inline-flex !important;
+  color: #fbbf24;
+}
+
+.knx-linky-card.collapsed .knx-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Linky Main Power Row */
+.knx-linky-main {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.knx-linky-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.knx-linky-power-val {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(251, 191, 36, 0.25);
+}
+
+.knx-linky-power-unit {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.knx-linky-hint {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* 2-Grid Sub-metrics: Day & Month */
+.knx-linky-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.knx-linky-cell {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 7px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all 0.2s ease;
+}
+
+.knx-linky-cell:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.knx-linky-label {
+  font-size: 9px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.knx-linky-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.knx-linky-val small {
+  font-size: 10px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+/* --------------------------------------------------------------------------
+   WEATHER HUD (TOP-RIGHT) - COMPACT & COLLAPSIBLE
+   -------------------------------------------------------------------------- */
+.knx-hud-card {
+  pointer-events: auto;
+  position: fixed;
+  top: 70px;
+  right: 24px;
+  width: 270px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 14px 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 900;
+}
+
+.knx-hud-card:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.knx-hud-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.knx-hud-card.collapsed {
+  width: auto;
+  min-width: 180px;
+  max-width: 240px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.88);
+}
+
+.knx-hud-card.collapsed .knx-card-body {
+  display: none !important;
+}
+
+.knx-hud-card.collapsed .knx-collapsed-preview {
+  display: inline-flex !important;
+  color: #38bdf8;
+}
+
+.knx-hud-card.collapsed .knx-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.knx-weather-condition-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 16px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+}
+
+/* Hero Temperature */
+.knx-hero-temp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.knx-temp-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.knx-hero-temp {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.knx-minmax-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.knx-temp-min {
+  color: #60a5fa;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.knx-temp-max {
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.knx-weather-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.knx-weather-main-icon {
+  width: 28px;
+  height: 28px;
+}
+
+/* 4-Metrics Grid */
+.knx-hud-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.knx-grid-cell {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.knx-grid-cell:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.knx-cell-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.knx-cell-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.knx-cell-label {
+  font-size: 9px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.knx-cell-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+}
+
+/* Sun Strip */
+.knx-sun-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.knx-sun-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.knx-sun-item svg {
+  width: 12px;
+  height: 12px;
+}
+
+.knx-sun-time {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   MASTER CONTROL DOCK (BOTTOM-CENTER) - CLEAN OVAL PILLS (ANTI-WRAP)
+   -------------------------------------------------------------------------- */
+.knx-dock-container {
+  pointer-events: auto;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px !important;
+  padding: 6px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  z-index: 1000;
+  max-width: 95vw !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+}
+
+.knx-dock-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Truly rounded oval pill buttons with STRICT NO WRAP */
+.knx-dock-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px !important;
+  color: #f1f5f9;
+  padding: 7px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  outline: none !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.knx-dock-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+}
+
+.knx-dock-btn:active {
+  transform: scale(0.96);
+}
+
+/* Danger / All OFF button */
+.knx-dock-btn.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+.knx-dock-btn.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35);
+}
+
+/* Secondary / Jour OFF button */
+.knx-dock-btn.btn-jour {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+}
+.knx-dock-btn.btn-jour:hover {
+  background: rgba(148, 163, 184, 0.22);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+/* Shutter buttons */
+.knx-dock-btn.btn-shutter {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #7dd3fc;
+}
+.knx-dock-btn.btn-shutter:hover {
+  background: rgba(14, 165, 233, 0.22);
+  border-color: rgba(14, 165, 233, 0.55);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.3);
+}
+
+/* Floor heating button */
+.knx-dock-btn.btn-heat {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fde68a;
+}
+.knx-dock-btn.btn-heat:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
+}
+.knx-dock-btn.btn-heat.is-heating {
+  background: rgba(245, 158, 11, 0.28);
+  border-color: rgba(245, 158, 11, 0.7);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+}
+
+/* Gate button */
+.knx-dock-btn.btn-gate {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+.knx-dock-btn.btn-gate:hover {
+  background: rgba(16, 185, 129, 0.24);
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+}
+
+/* Roborock Vacuum button */
+.knx-dock-btn.btn-vacuum {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.35);
+  color: #d8b4fe;
+}
+.knx-dock-btn.btn-vacuum:hover {
+  background: rgba(168, 85, 247, 0.24);
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
+}
+.knx-dock-btn.btn-vacuum.is-cleaning {
+  background: rgba(168, 85, 247, 0.45);
+  border-color: #c084fc;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.55);
+}
+
+.knx-dock-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* Modern toast notification */
+.knx-toast {
+  position: fixed;
+  bottom: 74px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 8px 20px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000;
+}
+
+.knx-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES (TABLETS & COMPACT VIEWPORTS)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1350px) {
+  .knx-linky-card {
+    width: 220px;
+    left: 16px;
+    top: 65px;
+  }
+  .knx-hud-card {
+    width: 250px;
+    right: 16px;
+    top: 65px;
+  }
+  .knx-dock-btn {
+    padding: 6px 11px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  /* On 1024px tablets: keep cards compact so center nav has 100% room */
+  .knx-linky-card {
+    width: 200px;
+    left: 12px;
+    top: 60px;
+    padding: 10px 12px;
+  }
+  .knx-hud-card {
+    width: 230px;
+    right: 12px;
+    top: 60px;
+    padding: 10px 12px;
+  }
+  .knx-dock-container {
+    gap: 4px !important;
+    padding: 5px 10px !important;
+  }
+  .knx-dock-btn {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+  }
+}
+
+
+/* ==========================================================================
+   LINKY TELEMETRY INTERACTIVITY & ENERGY ANALYTICS
+   ========================================================================== */
+.knx-linky-hist-chip {
+  background: rgba(56, 189, 248, 0.12) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 9999px !important;
+  color: #38bdf8 !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  /* group has margin-left: auto */
+  margin-right: 6px !important;
+  outline: none !important;
+}
+
+.knx-linky-hist-chip:hover {
+  background: rgba(56, 189, 248, 0.28) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4) !important;
+}
+
+.knx-linky-clickable {
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  padding: 2px 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-linky-clickable:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+  color: #38bdf8 !important;
+}
+
+/* ==========================================================================
+   FAMILY HUB - PLANNING FAMILIAL & TO-DO LIST (MODAL OVERLAY)
+   ========================================================================== */
+.knx-hub-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(5, 10, 20, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 10050 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease !important;
+}
+
+.knx-hub-modal-overlay.open {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.knx-hub-modal,
+.knx-hub-modal-box {
+  width: 95vw !important;
+  max-width: 1140px !important;
+  max-height: 88vh !important;
+  overflow-x: hidden !important;
+  background: rgba(13, 20, 36, 0.96) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(168, 85, 247, 0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  transform: scale(0.96) translateY(8px);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.knx-hub-modal-overlay.open .knx-hub-modal,
+.knx-hub-modal-box {
+  transform: scale(1) translateY(0) !important;
+}
+
+/* Header */
+.knx-hub-header {
+  padding: 16px 24px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.knx-hub-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.knx-hub-header-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 14px !important;
+  background: rgba(168, 85, 247, 0.18) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #c084fc !important;
+}
+
+.knx-hub-title {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+  margin: 0 !important;
+}
+
+.knx-hub-subtitle {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  margin: 0 !important;
+}
+
+.knx-hub-close-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #cbd5e1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.knx-hub-close-btn:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #ffffff !important;
+  transform: scale(1.1) !important;
+}
+
+/* Body: 2 Columns - Balanced 50/50 without blowout */
+.knx-hub-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 20px !important;
+  padding: 16px 20px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  max-height: calc(88vh - 75px) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .knx-hub-body {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+/* Left: Planning & Household Reminders */
+.knx-agenda-section,
+.knx-planning-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.knx-todo-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.knx-section-heading {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  color: #c084fc !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 2px !important;
+}
+
+.knx-reminder-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 18px !important;
+  padding: 12px 14px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-reminder-card:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+.knx-reminder-icon {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  font-size: 16px !important;
+}
+
+.knx-reminder-card.trash-yellow .knx-reminder-icon {
+  background: rgba(251, 191, 36, 0.18) !important;
+  border: 1px solid rgba(251, 191, 36, 0.35) !important;
+  color: #fbbf24 !important;
+}
+
+.knx-reminder-card.trash-grey .knx-reminder-icon {
+  background: rgba(148, 163, 184, 0.18) !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+  color: #cbd5e1 !important;
+}
+
+.knx-reminder-card.sun .knx-reminder-icon {
+  background: rgba(245, 158, 11, 0.18) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  color: #f59e0b !important;
+}
+
+.knx-reminder-card.kids .knx-reminder-icon {
+  background: rgba(236, 72, 153, 0.18) !important;
+  border: 1px solid rgba(236, 72, 153, 0.35) !important;
+  color: #f472b6 !important;
+}
+
+.knx-reminder-info {
+  flex: 1 !important;
+}
+
+.knx-reminder-title {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #f1f5f9 !important;
+  margin-bottom: 2px !important;
+}
+
+.knx-reminder-desc {
+  font-size: 11.5px !important;
+  color: #94a3b8 !important;
+  line-height: 1.4 !important;
+}
+
+/* Right: To-Do List */
+.knx-todo-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.knx-todo-bar {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+.knx-todo-input {
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+  color: #f1f5f9 !important;
+  font-size: 13px !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-todo-input:focus {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: #c084fc !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.3) !important;
+}
+
+.knx-todo-cat-select {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 14px !important;
+  padding: 0 10px !important;
+  color: #cbd5e1 !important;
+  font-size: 12px !important;
+  outline: none !important;
+}
+
+.knx-todo-add-btn {
+  background: #a855f7 !important;
+  border: none !important;
+  border-radius: 14px !important;
+  padding: 0 16px !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.knx-todo-add-btn:hover {
+  background: #9333ea !important;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+.knx-todo-add-btn:active {
+  transform: scale(0.96) !important;
+}
+
+/* Tasks list container */
+.knx-todo-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  max-height: 380px !important;
+  overflow-y: auto !important;
+  padding-right: 4px !important;
+}
+
+.knx-todo-item {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 9px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-todo-item:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.knx-todo-checkbox {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 6px !important;
+  border: 2px solid rgba(255, 255, 255, 0.25) !important;
+  background: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.knx-todo-checkbox:hover {
+  border-color: #a855f7 !important;
+}
+
+.knx-todo-item.done .knx-todo-checkbox {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+}
+
+.knx-todo-checkbox svg {
+  width: 12px !important;
+  height: 12px !important;
+  color: #ffffff !important;
+  display: none !important;
+}
+
+.knx-todo-item.done .knx-todo-checkbox svg {
+  display: block !important;
+}
+
+.knx-todo-tag {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 9999px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  flex-shrink: 0 !important;
+}
+
+.knx-todo-tag.Maison { background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+.knx-todo-tag.Courses { background: rgba(251, 191, 36, 0.18); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+.knx-todo-tag.Entretien { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.knx-todo-tag.Urgent { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+.knx-todo-text {
+  flex: 1 !important;
+  font-size: 13px !important;
+  color: #f1f5f9 !important;
+  transition: all 0.2s ease !important;
+  word-break: break-word !important;
+}
+
+.knx-todo-item.done .knx-todo-text {
+  text-decoration: line-through !important;
+  color: #64748b !important;
+}
+
+.knx-todo-delete-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  padding: 4px 6px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.knx-todo-delete-btn:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Footer / Telegram Send Bar */
+.knx-hub-footer {
+  padding: 12px 24px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.knx-todo-stats {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.knx-telegram-push-btn {
+  background: rgba(14, 165, 233, 0.18) !important;
+  border: 1px solid rgba(14, 165, 233, 0.4) !important;
+  border-radius: 9999px !important;
+  padding: 7px 16px !important;
+  color: #38bdf8 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.25s ease !important;
+  outline: none !important;
+}
+
+.knx-telegram-push-btn:hover {
+  background: rgba(14, 165, 233, 0.35) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.knx-telegram-push-btn:active {
+  transform: scale(0.96) !important;
+}
+
+.knx-telegram-push-btn svg {
+  width: 15px !important;
+  height: 15px !important;
+  flex-shrink: 0 !important;
+}
+
+
+/* ==========================================================================
+   ENERGY & STATS PAGE (PLAN 9)
+   ========================================================================== */
+/* Break out of Jeedom inline container width/height restrictions */
+#div_displayObject174,
+div[data-plan_id="174"],
+.plan-element[data-plan_id="174"] {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 40 !important;
+}
+
+#div_displayObject174 > *,
+div[data-plan_id="174"] > *,
+.plan-element[data-plan_id="174"] > * {
+  pointer-events: auto !important;
+}
+
+/* Luxury Frosted Dark Glass Main Container */
+.knx-energy-page {
+  position: fixed !important;
+  top: 125px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 95vw !important;
+  max-width: 1260px !important;
+  height: calc(100vh - 145px) !important;
+  max-height: calc(100vh - 145px) !important;
+  background: rgba(10, 16, 30, 0.94) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 210, 255, 0.12) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  padding: 18px 22px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Header */
+.knx-energy-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.knx-energy-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.knx-energy-icon-badge {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: rgba(0, 210, 255, 0.15) !important;
+  border: 1px solid rgba(0, 210, 255, 0.35) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #00d2ff !important;
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.25) !important;
+}
+
+.knx-energy-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+  margin: 0 !important;
+}
+
+.knx-energy-subtitle {
+  font-size: 11.5px !important;
+  color: #94a3b8 !important;
+  margin: 2px 0 0 0 !important;
+}
+
+.knx-energy-status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(16, 185, 129, 0.12) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  padding: 5px 12px !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #34d399 !important;
+}
+
+.knx-pulse-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #10b981 !important;
+  box-shadow: 0 0 10px #10b981 !important;
+  animation: knxPulse 2s infinite !important;
+}
+
+@keyframes knxPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* KPI 5 Cards Grid */
+.knx-energy-kpi-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1080px) {
+  .knx-energy-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .knx-energy-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+.knx-kpi-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 18px !important;
+  padding: 13px 15px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.knx-kpi-card:hover {
+  transform: translateY(-2px) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+.knx-kpi-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 6px !important;
+  min-width: 0 !important;
+}
+
+.knx-kpi-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #94a3b8 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.knx-kpi-badge {
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  padding: 2px 6px !important;
+  border-radius: 9999px !important;
+  letter-spacing: 0.4px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.knx-kpi-badge.live { background: rgba(0, 210, 255, 0.2); color: #00d2ff; border: 1px solid rgba(0, 210, 255, 0.4); }
+.knx-kpi-badge.day { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+.knx-kpi-badge.month { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+.knx-kpi-badge.max { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+.knx-kpi-badge.water { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+
+.knx-kpi-value-row {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 5px !important;
+  margin-bottom: 4px !important;
+  white-space: nowrap !important;
+}
+
+.knx-kpi-num {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  color: #f8fafc !important;
+  letter-spacing: -0.5px !important;
+  line-height: 1.1 !important;
+}
+
+.knx-kpi-card.instant .knx-kpi-num { color: #00d2ff !important; text-shadow: 0 0 16px rgba(0, 210, 255, 0.35); }
+.knx-kpi-card.day .knx-kpi-num { color: #34d399 !important; text-shadow: 0 0 16px rgba(16, 185, 129, 0.35); }
+.knx-kpi-card.month .knx-kpi-num { color: #fbbf24 !important; text-shadow: 0 0 16px rgba(245, 158, 11, 0.35); }
+.knx-kpi-card.max .knx-kpi-num { color: #c084fc !important; text-shadow: 0 0 16px rgba(168, 85, 247, 0.35); }
+.knx-kpi-card.water .knx-kpi-num { color: #38bdf8 !important; text-shadow: 0 0 16px rgba(56, 189, 248, 0.35); }
+
+.knx-kpi-unit {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #94a3b8 !important;
+}
+
+.knx-kpi-desc {
+  font-size: 11px !important;
+  color: #64748b !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Chart container card */
+.knx-energy-chart-box {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  padding: 16px 20px !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 420px !important;
+}
+
+.knx-chart-controls {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.knx-chart-tabs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.knx-tab-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 9999px !important;
+  padding: 6px 14px !important;
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.knx-tab-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.knx-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #f1f5f9 !important;
+}
+
+.knx-tab-btn.active {
+  background: rgba(0, 210, 255, 0.2) !important;
+  border-color: #00d2ff !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.35) !important;
+}
+
+.knx-chart-ranges {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.knx-range-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
+  padding: 5px 11px !important;
+  color: #cbd5e1 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.knx-range-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.knx-range-btn.active {
+  background: rgba(168, 85, 247, 0.25) !important;
+  border-color: #c084fc !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* ==========================================================================
+   PLANNING FAMILIAL - GOOGLE CALENDAR (ICAL), VOICE RECOGNITION & INLINE EDIT
+   ========================================================================== */
+
+/* Agenda Filter Pills & Layout */
+.knx-agenda-filter-bar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+  flex-wrap: wrap !important;
+}
+.knx-agenda-pill {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 9999px !important;
+  padding: 4px 10px !important;
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  user-select: none !important;
+}
+.knx-agenda-pill:hover, .knx-agenda-pill.active {
+  background: rgba(168, 85, 247, 0.22) !important;
+  border-color: #c084fc !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+.knx-agenda-pill.pill-fanny.active {
+  background: rgba(236, 72, 153, 0.22) !important;
+  border-color: #f472b6 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.3) !important;
+}
+.knx-agenda-pill.pill-matthieu.active {
+  background: rgba(14, 165, 233, 0.22) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.3) !important;
+}
+.knx-agenda-config-btn {
+  /* group has margin-left: auto */
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  padding: 3px 8px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+.knx-agenda-config-btn:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Agenda Event Cards */
+.knx-agenda-events-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+  max-height: 260px !important;
+  overflow-y: auto !important;
+  padding-right: 2px !important;
+}
+.knx-agenda-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 9px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  transition: all 0.2s ease !important;
+}
+.knx-agenda-card:hover {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+.knx-agenda-date-badge {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  padding: 4px 6px !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex-shrink: 0 !important;
+}
+.knx-agenda-date-day {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+}
+.knx-agenda-date-month {
+  font-size: 9px !important;
+  text-transform: uppercase !important;
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  margin-top: 2px !important;
+}
+.knx-agenda-info {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+.knx-agenda-event-title {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: #f1f5f9 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.knx-agenda-event-meta {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 2px !important;
+}
+.knx-who-badge {
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 9999px !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+  line-height: 1.3 !important;
+}
+
+.knx-agenda-event-details {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+.knx-who-badge.Matthieu { background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.4); }
+.knx-who-badge.Fanny { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.4); }
+.knx-who-badge.Foyer { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+
+/* Config Panel for iCal URLs */
+.knx-cal-config-panel {
+  display: none;
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
+  margin-bottom: 12px !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.knx-cal-config-panel.open {
+  display: flex !important;
+}
+.knx-cal-config-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+.knx-cal-config-label {
+  font-size: 11px !important;
+  color: #cbd5e1 !important;
+  font-weight: 600 !important;
+}
+.knx-cal-config-input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  color: #f1f5f9 !important;
+  font-size: 11.5px !important;
+  outline: none !important;
+}
+.knx-cal-config-input:focus {
+  border-color: #c084fc !important;
+}
+.knx-cal-save-btn {
+  align-self: flex-end !important;
+  background: #a855f7 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 5px 12px !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+.knx-cal-save-btn:hover {
+  background: #9333ea !important;
+}
+
+/* Voice Microphone Button */
+.knx-voice-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 14px !important;
+  width: 38px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  color: #cbd5e1 !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+.knx-voice-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+.knx-voice-btn.listening {
+  background: rgba(239, 68, 68, 0.3) !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+  animation: knx-pulse-red 1.2s infinite ease-in-out !important;
+}
+@keyframes knx-pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Inline Edit Field & Buttons */
+.knx-todo-edit-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 1 !important;
+}
+.knx-todo-edit-input {
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid #38bdf8 !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+  outline: none !important;
+}
+.knx-todo-edit-save {
+  background: #10b981 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+.knx-todo-edit-cancel {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  color: #cbd5e1 !important;
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+}
+.knx-todo-edit-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  padding: 4px !important;
+  font-size: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.knx-todo-edit-btn:hover {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+}
+
+/* Reminders 2x2 Grid */
+.knx-reminders-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 8px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.knx-reminders-grid .knx-reminder-card {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.knx-reminders-grid .knx-reminder-info {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  flex: 1 !important;
+}
+
+.knx-reminders-grid .knx-reminder-card {
+  padding: 8px 10px !important;
+  border-radius: 14px !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.knx-reminders-grid .knx-reminder-icon {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+
+.knx-reminders-grid .knx-reminder-title {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  margin-bottom: 1px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.knx-reminders-grid .knx-reminder-desc {
+  font-size: 10px !important;
+  color: #94a3b8 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Agenda Events Scrollable Container */
+.knx-agenda-events-list {
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  padding-right: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(168, 85, 247, 0.4) transparent !important;
+}
+
+/* Todo Bar Responsive Rows */
+.knx-todo-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.knx-todo-input-row {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.knx-todo-options-row {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.knx-todo-options-row .knx-todo-cat-select {
+  flex: 1 !important;
+  height: 34px !important;
+}
+
+/* Modern thin scrollbars */
+.knx-agenda-events-list::-webkit-scrollbar,
+.knx-todo-list::-webkit-scrollbar,
+.knx-hub-body::-webkit-scrollbar {
+  width: 5px !important;
+}
+.knx-agenda-events-list::-webkit-scrollbar-thumb,
+.knx-todo-list::-webkit-scrollbar-thumb,
+.knx-hub-body::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.35) !important;
+  border-radius: 9999px !important;
+}
+.knx-agenda-events-list::-webkit-scrollbar-track,
+.knx-todo-list::-webkit-scrollbar-track,
+.knx-hub-body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+
+/* ==========================================================================
+   TO-DO LIST FILTER PILLS & CATEGORY TOGGLE
+   ========================================================================== */
+.knx-todo-filter-pills-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  padding: 8px 10px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.knx-pill-subgroup {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.knx-pill-subgroup .knx-filter-title {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  font-weight: 600 !important;
+  min-width: 58px !important;
+}
+
+.knx-todo-pill,
+.knx-todo-who-pill {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #cbd5e1 !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.knx-todo-pill:hover,
+.knx-todo-who-pill:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.knx-todo-pill.active {
+  background: rgba(56, 189, 248, 0.25) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+}
+
+.knx-todo-who-pill.active {
+  background: rgba(245, 158, 11, 0.25) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important;
+}
+
+.knx-todo-add-label {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  font-weight: 600 !important;
+  margin-bottom: 6px !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* ==========================================================================
+   VOLETS ROULANTS (SHUTTERS) DEDICATED GLASSMORPHISM HUB
+   ========================================================================== */
+.knx-volets-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 10060 !important;
+  background: rgba(3, 7, 18, 0.8) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  animation: knxHubFadeIn 0.25s ease-out forwards !important;
+  box-sizing: border-box !important;
+}
+
+.knx-volets-modal {
+  width: 1000px !important;
+  max-width: 96vw !important;
+  max-height: 92vh !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.94) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(56, 189, 248, 0.15) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  animation: knxHubPop 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  color: #f8fafc !important;
+}
+
+.knx-volets-header {
+  padding: 18px 24px !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.knx-volets-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.knx-volets-icon-badge {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 14px !important;
+  background: rgba(14, 165, 233, 0.2) !important;
+  border: 1px solid rgba(14, 165, 233, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.3) !important;
+}
+
+.knx-volets-icon-badge img {
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain !important;
+  filter: brightness(1.2) drop-shadow(0 0 4px rgba(56, 189, 248, 0.6)) !important;
+}
+
+.knx-volets-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+  letter-spacing: -0.2px !important;
+}
+
+.knx-volets-subtitle {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  margin-top: 2px !important;
+}
+
+.knx-volets-body {
+  padding: 20px 24px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+/* Global Actions Bar */
+.knx-volets-global-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  padding: 10px 16px !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
+.knx-volets-global-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.knx-volets-global-btns {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.knx-volet-gbtn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #f8fafc !important;
+  padding: 6px 12px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-volet-gbtn:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  transform: translateY(-1px) !important;
+  color: #38bdf8 !important;
+}
+
+.knx-volet-gbtn.day:hover {
+  background: rgba(245, 158, 11, 0.25) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  color: #fbbf24 !important;
+}
+
+.knx-volet-gbtn.night:hover {
+  background: rgba(99, 102, 241, 0.25) !important;
+  border-color: rgba(99, 102, 241, 0.5) !important;
+  color: #a5b4fc !important;
+}
+
+/* Grid of Shutter Cards */
+.knx-volets-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.knx-volet-card {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  padding: 14px 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-volet-card:hover {
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+}
+
+.knx-volet-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.knx-volet-info {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.knx-volet-name {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+}
+
+.knx-volet-room {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+}
+
+.knx-volet-pos-badge {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 8px !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  letter-spacing: 0.2px !important;
+}
+
+.knx-volet-pos-badge.closed {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+.knx-volet-pos-badge.open {
+  background: rgba(34, 197, 94, 0.15) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Slider Section */
+.knx-volet-slider-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+.knx-volet-slider {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  flex: 1 !important;
+  height: 8px !important;
+  border-radius: 9999px !important;
+  background: linear-gradient(to right, #38bdf8 0%, rgba(255, 255, 255, 0.15) 0%) !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+
+.knx-volet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 2px solid #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8) !important;
+  cursor: grab !important;
+  transition: transform 0.15s ease !important;
+}
+
+.knx-volet-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15) !important;
+}
+
+.knx-volet-slider::-webkit-slider-thumb:active {
+  cursor: grabbing !important;
+  transform: scale(1.25) !important;
+}
+
+/* Quick presets row */
+.knx-volet-presets-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+}
+
+.knx-volet-preset-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94a3b8 !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 3px 6px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.knx-volet-preset-btn:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+/* Action step buttons: Up, Stop, Down */
+.knx-volet-actions-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.knx-volet-action-btn {
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #e2e8f0 !important;
+  padding: 6px 8px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-volet-action-btn:hover {
+  background: rgba(56, 189, 248, 0.18) !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+  color: #38bdf8 !important;
+}
+
+.knx-volet-action-btn.stop:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  color: #f87171 !important;
+}
+
+/* ==========================================================================
+   TO-DO FILTER PILLS BAR
+   ========================================================================== */
+.knx-todo-filter-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  margin-bottom: 8px !important;
+  background: rgba(15, 23, 42, 0.45) !important;
+  padding: 8px 12px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.knx-todo-filter-subgroup {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.knx-todo-filter-title {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-right: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+.knx-todo-filter-pill {
+  font-size: 11px !important;
+  padding: 3px 10px !important;
+  border-radius: 9999px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #cbd5e1 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  user-select: none !important;
+  line-height: 1.4 !important;
+}
+
+.knx-todo-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.knx-todo-filter-pill.active {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35) !important;
+}
+
+.knx-todo-who-filter-pill.active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important;
+  border-color: #a78bfa !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.35) !important;
+}
+
+/* ==========================================================================
+   TRANSPARENT 3D HOUSE VOLETS VIEW
+   ========================================================================== */
+.knx-volets-overlay.view-3d {
+  background: rgba(5, 10, 20, 0.38) !important;
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+
+.knx-volets-modal.view-3d {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.knx-volets-3d-island {
+  position: fixed !important;
+  top: 18px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 10060 !important;
+  background: rgba(15, 23, 42, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.65), 0 0 20px rgba(56, 189, 248, 0.2) !important;
+}
+
+/* Floating shutter pins on the 3D floor plan */
+.knx-shutter-pin {
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  border-radius: 16px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65), 0 0 15px rgba(56, 189, 248, 0.25) !important;
+  width: 175px !important;
+  box-sizing: border-box !important;
+  z-index: 10055 !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.knx-shutter-pin:hover {
+  transform: translate(-50%, -50%) scale(1.04) !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75), 0 0 25px rgba(56, 189, 248, 0.4) !important;
+}
+
+.knx-shutter-pin-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 5px !important;
+}
+
+.knx-shutter-pin-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #f1f5f9 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 110px !important;
+}
+
+.knx-shutter-pin-badge {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 1px 6px !important;
+  border-radius: 9999px !important;
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+}
+
+.knx-shutter-pin-badge.open {
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+.knx-shutter-pin-badge.closed {
+  background: rgba(148, 163, 184, 0.2) !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(148, 163, 184, 0.4) !important;
+}
+
+.knx-shutter-pin-slider {
+  width: 100% !important;
+  height: 5px !important;
+  border-radius: 3px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  outline: none !important;
+  margin: 6px 0 !important;
+  accent-color: #38bdf8 !important;
+  cursor: pointer !important;
+}
+
+.knx-shutter-pin-actions {
+  display: flex !important;
+  gap: 4px !important;
+  justify-content: space-between !important;
+}
+
+.knx-shutter-pin-btn {
+  flex: 1 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 6px !important;
+  color: #cbd5e1 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 3px 0 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.knx-shutter-pin-btn:hover {
+  background: rgba(56, 189, 248, 0.25) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+}
+
+
+/* ==========================================================================
+   VOLETS ROULANTS 3D HOUSE PLAN OVERLAY & PINS
+   Transparent background keeping the house visible, pins on windows/doors
+   ========================================================================== */
+.knx-volets-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 10060 !important;
+  background: rgba(10, 15, 29, 0.72) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+  animation: knxHubFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.knx-volets-modal {
+  width: 96vw !important;
+  max-width: 1400px !important;
+  height: 92vh !important;
+  max-height: 92vh !important;
+  background: rgba(15, 23, 42, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.15) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+.knx-volets-header {
+  padding: 14px 24px !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-shrink: 0 !important;
+  gap: 16px !important;
+}
+
+.knx-volets-tabs {
+  display: flex !important;
+  align-items: center !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  padding: 4px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  gap: 4px !important;
+}
+
+.knx-volet-tab-btn {
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-volet-tab-btn.active {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2) !important;
+}
+
+.knx-volets-body {
+  padding: 12px 20px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+/* 3D Plan View Container */
+.knx-volets-plan-canvas {
+  position: relative !important;
+  width: 100% !important;
+  flex: 1 !important;
+  min-height: 480px !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-image: url('data/plan/planHeader4-1d2cdda72218ce4b57ceac5379ff79b4c59fbe4ef45f77074a1fca500f1760aff0dfbc1efcd896a8f72bc706398e26185e125558a941763976cecce8158ff0d6.jpg') !important;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-color: #0b1120 !important;
+}
+
+/* Shutter Pin on 3D Plan */
+.knx-shutter-pin {
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.knx-shutter-pin:hover {
+  transform: translate(-50%, -50%) scale(1.08) !important;
+  z-index: 20 !important;
+}
+
+.knx-shutter-pin-badge {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 12px !important;
+  border-radius: 20px !important;
+  background: rgba(15, 23, 42, 0.88) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(56, 189, 248, 0.25) !important;
+  color: #f8fafc !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.knx-shutter-pin-badge.closed {
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(245, 158, 11, 0.2) !important;
+}
+
+.knx-shutter-pin-badge.open {
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.35) !important;
+}
+
+.knx-shutter-icon-slats {
+  width: 20px !important;
+  height: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 2.5px !important;
+}
+
+.knx-shutter-icon-slats span {
+  display: block !important;
+  height: 2px !important;
+  border-radius: 1px !important;
+  background: #38bdf8 !important;
+  transition: all 0.3s ease !important;
+}
+
+.knx-shutter-pin-badge.closed .knx-shutter-icon-slats span {
+  background: #f59e0b !important;
+}
+
+/* Floating Popover on Pin Click */
+.knx-shutter-popover {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 260px !important;
+  padding: 14px !important;
+  border-radius: 18px !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.2) !important;
+  display: none !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  z-index: 50 !important;
+  animation: knxPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes knxPopIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.95); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+.knx-shutter-pin.active .knx-shutter-popover {
+  display: flex !important;
+}
+
+/* To-Do Filter Bars */
+.knx-todo-filter-bar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  overflow-x: auto !important;
+  padding: 2px 0 6px 0 !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.knx-todo-filter-bar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.knx-todo-pill, .knx-todo-who-pill {
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.18s ease !important;
+}
+
+.knx-todo-pill:hover, .knx-todo-who-pill:hover {
+  color: #f8fafc !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.knx-todo-pill.active {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+}
+
+.knx-todo-who-pill.active.pill-matthieu {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+}
+
+.knx-todo-who-pill.active.pill-fanny {
+  background: rgba(236, 72, 153, 0.2) !important;
+  color: #f472b6 !important;
+  border-color: rgba(236, 72, 153, 0.5) !important;
+}
+
+.knx-todo-who-pill.active:not(.pill-matthieu):not(.pill-fanny) {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+/* Light Dimmer Sliders on Plan 3 */
+.knx-dimmer-pin-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 3px 8px !important;
+  border-radius: 12px !important;
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(250, 204, 21, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 8px rgba(250, 204, 21, 0.2) !important;
+  margin-top: 4px !important;
+  cursor: pointer !important;
+}
+
+.knx-dimmer-pin-pill input[type="range"] {
+  width: 60px !important;
+  height: 4px !important;
+  accent-color: #facc15 !important;
+  cursor: pointer !important;
+}
+
+
+/* ==========================================================================
+   HOTFIXES FOR PLANNING MODAL, ENERGY OVERLAP & ACTION BUTTONS
+   ========================================================================== */
+
+/* Fix Planning Header Icon */
+.knx-hub-title-wrap, .knx-hub-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+.knx-hub-icon-badge, .knx-hub-header-icon {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  border-radius: 14px !important;
+  background: rgba(168, 85, 247, 0.18) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #c084fc !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.25) !important;
+}
+
+.knx-hub-icon-badge svg, .knx-hub-header-icon svg {
+  width: 22px !important;
+  height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Fix To-Do Filter Bars to Horizontal Rows */
+.knx-todo-filter-bar {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 6px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  width: auto !important;
+}
+
+.knx-todo-pill, .knx-todo-who-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 5px 12px !important;
+  border-radius: 20px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-todo-pill:hover, .knx-todo-who-pill:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+}
+
+.knx-todo-pill.active {
+  background: rgba(56, 189, 248, 0.25) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+}
+
+.knx-todo-who-pill.active.pill-matthieu {
+  background: rgba(245, 158, 11, 0.25) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+}
+
+.knx-todo-who-pill.active.pill-fanny {
+  background: rgba(236, 72, 153, 0.25) !important;
+  color: #f472b6 !important;
+  border-color: rgba(236, 72, 153, 0.5) !important;
+}
+
+.knx-todo-who-pill.active:not(.pill-matthieu):not(.pill-fanny) {
+  background: rgba(168, 85, 247, 0.25) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+/* Fix To-Do Action Buttons */
+.knx-todo-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  /* group has margin-left: auto */
+}
+
+.knx-todo-action-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  padding: 4px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+.knx-todo-action-btn svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.knx-todo-action-btn.edit:hover {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+}
+
+.knx-todo-action-btn.delete:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Fix Energy Page Overlap on Plan 9 */
+.knx-energy-page {
+  position: fixed !important;
+  top: 125px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: min(1280px, 94vw) !important;
+  max-width: 1280px !important;
+  height: calc(100vh - 145px) !important;
+  max-height: calc(100vh - 145px) !important;
+  background: rgba(10, 16, 30, 0.94) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 210, 255, 0.12) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+
+/* Agenda Actions Wrapper */
+.knx-agenda-actions {
+  margin-left: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* Custom scrollbar for agenda events */
+.knx-agenda-events-list::-webkit-scrollbar {
+  width: 5px !important;
+}
+.knx-agenda-events-list::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.4) !important;
+  border-radius: 10px !important;
+}
+.knx-agenda-events-list::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+
+/* ==========================================================================
+   J.A.R.V.I.S. // STARK INDUSTRIES HUD TRANSFORMATION
+   High-Tech Chamfered Panels, Cyan Neon Brackets, Arc Reactor Power Meters
+   ========================================================================== */
+/* Apply High-Tech Chamfered Polygons to HUD Cards */
+.knx-linky-card,
+.knx-hud-card,
+.knx-jarvis-terminal {
+  position: fixed !important;
+  background: rgba(6, 15, 30, 0.90) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.45) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 240, 255, 0.22), inset 0 0 25px rgba(0, 240, 255, 0.05) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    0 12px, 12px 0,
+    calc(100% - 12px) 0, 100% 12px,
+    100% calc(100% - 12px), calc(100% - 12px) 100%,
+    12px 100%, 0 calc(100% - 12px)
+  ) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.knx-linky-card:hover,
+.knx-hud-card:hover,
+.knx-jarvis-terminal:hover {
+  border-color: rgba(0, 240, 255, 0.75) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.35), inset 0 0 30px rgba(0, 240, 255, 0.1) !important;
+}
+
+/* Targeting Corner Brackets */
+.knx-linky-card::before,
+.knx-hud-card::before,
+.knx-jarvis-terminal::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 3px !important;
+  left: 3px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-top: 2px solid #00f0ff !important;
+  border-left: 2px solid #00f0ff !important;
+  filter: drop-shadow(0 0 4px #00f0ff) !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+
+.knx-linky-card::after,
+.knx-hud-card::after,
+.knx-jarvis-terminal::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 3px !important;
+  right: 3px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-bottom: 2px solid #00f0ff !important;
+  border-right: 2px solid #00f0ff !important;
+  filter: drop-shadow(0 0 4px #00f0ff) !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+
+/* Titles and Headers */
+.knx-linky-title,
+.knx-hud-title,
+.knx-terminal-title {
+  font-family: 'Orbitron', monospace, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  color: #38bdf8 !important;
+  text-transform: uppercase !important;
+}
+
+/* Numbers in Sci-Fi Monospace */
+.knx-linky-power-val,
+.knx-hero-temp,
+.knx-terminal-clock {
+  font-family: 'Share Tech Mono', 'Orbitron', monospace !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Segmented Arc Reactor Power Bar for Linky */
+.knx-arc-power-bar {
+  display: flex !important;
+  gap: 3px !important;
+  margin: 6px 0 8px 0 !important;
+  padding: 2px 0 !important;
+}
+.knx-arc-segment {
+  flex: 1 !important;
+  height: 5px !important;
+  background: rgba(0, 240, 255, 0.15) !important;
+  border-radius: 1px !important;
+  transition: all 0.3s ease !important;
+}
+.knx-arc-segment.active-cyan {
+  background: #00f0ff !important;
+  box-shadow: 0 0 8px #00f0ff !important;
+}
+.knx-arc-segment.active-amber {
+  background: #f59e0b !important;
+  box-shadow: 0 0 8px #f59e0b !important;
+}
+.knx-arc-segment.active-red {
+  background: #ef4444 !important;
+  box-shadow: 0 0 8px #ef4444 !important;
+}
+
+/* High-Tech Cockpit Dock at Bottom */
+.knx-dock-container {
+  background: rgba(6, 15, 30, 0.92) !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 240, 255, 0.18), inset 0 0 20px rgba(0, 240, 255, 0.05) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    0 10px, 10px 0,
+    calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 0 calc(100% - 10px)
+  ) !important;
+}
+
+.knx-dock-btn {
+  border-radius: 0 !important;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.28) !important;
+  background: rgba(0, 240, 255, 0.06) !important;
+  font-family: 'Rajdhani', -apple-system, sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #cbd5e1 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.knx-dock-btn:hover {
+  background: rgba(0, 240, 255, 0.2) !important;
+  border-color: #00f0ff !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ==========================================================================
+   J.A.R.V.I.S. TACTICAL HUD TERMINAL (BOTTOM-LEFT HERO)
+   Featuring the 3D Neural Particle Sphere & Interactive Real Voice Bar
+   ========================================================================== */
+.knx-jarvis-terminal {
+  position: fixed !important;
+  bottom: 16px !important;
+  left: 16px !important;
+  width: 275px !important;
+  max-width: calc(100vw - 32px) !important;
+  background: rgba(6, 15, 30, 0.92) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.45) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 240, 255, 0.22), inset 0 0 25px rgba(0, 240, 255, 0.05) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    0 12px, 12px 0,
+    calc(100% - 12px) 0, 100% 12px,
+    100% calc(100% - 12px), calc(100% - 12px) 100%,
+    12px 100%, 0 calc(100% - 12px)
+  ) !important;
+  padding: 10px 12px 10px 12px !important;
+  z-index: 1000 !important;
+  color: #e2e8f0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  overflow: visible !important;
+}
+
+.knx-jarvis-terminal:hover {
+  border-color: rgba(0, 240, 255, 0.8) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.35), inset 0 0 30px rgba(0, 240, 255, 0.08) !important;
+}
+
+/* State: Speaking (Stark Cyan Pulse) */
+.knx-jarvis-terminal.jarvis-speaking {
+  border-color: #00f0ff !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 240, 255, 0.6), inset 0 0 30px rgba(0, 240, 255, 0.2) !important;
+}
+
+/* State: Listening (Crimson / Electric Cyan Pulse) */
+.knx-jarvis-terminal.jarvis-listening {
+  border-color: #ff3366 !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), 0 0 40px rgba(255, 51, 102, 0.5), inset 0 0 30px rgba(255, 51, 102, 0.15) !important;
+}
+
+/* Top Header */
+.knx-ai-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+  padding-bottom: 6px !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.25) !important;
+}
+
+.knx-ai-mic-badge {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #00f0ff !important;
+  background: rgba(0, 240, 255, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #00f0ff !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.35) !important;
+  transition: all 0.25s ease !important;
+}
+.knx-ai-mic-badge:hover {
+  background: rgba(0, 240, 255, 0.25) !important;
+  transform: scale(1.08) !important;
+  box-shadow: 0 0 14px #00f0ff !important;
+}
+.knx-jarvis-terminal.jarvis-listening .knx-ai-mic-badge {
+  border-color: #ff3366 !important;
+  color: #ff3366 !important;
+  background: rgba(255, 51, 102, 0.2) !important;
+  box-shadow: 0 0 14px #ff3366 !important;
+  animation: pulseMic 1s infinite alternate !important;
+}
+@keyframes pulseMic {
+  0% { transform: scale(1); filter: drop-shadow(0 0 4px #ff3366); }
+  100% { transform: scale(1.12); filter: drop-shadow(0 0 12px #ff3366); }
+}
+
+.knx-ai-mic-icon {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.knx-ai-mic-info {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.1 !important;
+}
+.knx-ai-protocol {
+  font-family: 'Orbitron', monospace !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  color: #00f0ff !important;
+  letter-spacing: 0.08em !important;
+}
+.knx-ai-sub-status {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 7px !important;
+  color: #38bdf8 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.knx-ai-title-wrap {
+  text-align: center !important;
+  flex: 1 !important;
+}
+.knx-ai-main-title {
+  font-family: 'Orbitron', monospace !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  color: #00f0ff !important;
+  letter-spacing: 0.16em !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.8) !important;
+}
+.knx-ai-sub-title {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 6.5px !important;
+  color: #64748b !important;
+  letter-spacing: 0.06em !important;
+}
+
+.knx-ai-time-wrap {
+  text-align: right !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+}
+.knx-jarvis-clock {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: #00f0ff !important;
+  letter-spacing: 0.05em !important;
+  line-height: 1.1 !important;
+}
+.knx-jarvis-date {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 7px !important;
+  color: #94a3b8 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.knx-term-collapse-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #38bdf8 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2px !important;
+  margin-left: 2px !important;
+  transition: transform 0.25s ease !important;
+}
+.knx-term-collapse-btn:hover {
+  color: #00f0ff !important;
+  filter: drop-shadow(0 0 4px #00f0ff) !important;
+}
+.knx-jarvis-terminal.collapsed .knx-term-collapse-btn svg {
+  transform: rotate(180deg) !important;
+}
+
+/* Center Hero: 3D Neural Particle Sphere Container */
+.knx-neural-sphere-wrap {
+  position: relative !important;
+  height: 135px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(6, 15, 30, 0) 72%) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+.knx-terminal-orb-canvas {
+  width: 130px !important;
+  height: 130px !important;
+  display: block !important;
+  filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.55)) !important;
+  pointer-events: none !important;
+  transition: transform 0.3s ease !important;
+}
+.knx-jarvis-terminal:hover .knx-terminal-orb-canvas {
+  transform: scale(1.05) !important;
+}
+.knx-jarvis-terminal.jarvis-speaking .knx-terminal-orb-canvas {
+  transform: scale(1.1) !important;
+  filter: drop-shadow(0 0 18px #00f0ff) drop-shadow(0 0 30px rgba(0, 240, 255, 0.8)) !important;
+}
+.knx-jarvis-terminal.jarvis-listening .knx-terminal-orb-canvas {
+  transform: scale(1.08) !important;
+  filter: drop-shadow(0 0 18px #ff3366) drop-shadow(0 0 30px rgba(0, 240, 255, 0.6)) !important;
+}
+
+.knx-orb-hud-tag {
+  position: absolute !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 7px !important;
+  color: rgba(56, 189, 248, 0.6) !important;
+  letter-spacing: 0.08em !important;
+  pointer-events: none !important;
+}
+.knx-orb-hud-tag.top-left {
+  top: 4px !important;
+  left: 6px !important;
+}
+.knx-orb-hud-tag.bottom-right {
+  bottom: 4px !important;
+  right: 6px !important;
+}
+
+/* Bottom Interactive Voice Bar */
+.knx-voice-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 6px 10px !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  user-select: none !important;
+}
+.knx-voice-bar:hover {
+  background: rgba(0, 240, 255, 0.18) !important;
+  border-color: #00f0ff !important;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.35) !important;
+  transform: translateY(-1px) !important;
+}
+.knx-voice-bar:active {
+  transform: scale(0.98) !important;
+}
+
+.knx-voice-bar.is-listening {
+  background: rgba(255, 51, 102, 0.16) !important;
+  border-color: #ff3366 !important;
+  box-shadow: 0 0 16px rgba(255, 51, 102, 0.45) !important;
+  animation: pulseBar 1.2s infinite alternate !important;
+}
+@keyframes pulseBar {
+  0% { box-shadow: 0 0 8px rgba(255, 51, 102, 0.3); }
+  100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.7); }
+}
+
+.knx-voice-bar-mic {
+  color: #00f0ff !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+.knx-voice-bar-mic svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+.knx-voice-bar.is-listening .knx-voice-bar-mic {
+  color: #ff3366 !important;
+}
+
+.knx-voice-bar-text {
+  font-family: 'Share Tech Mono', monospace !important;
+  font-size: 8.5px !important;
+  font-weight: 700 !important;
+  color: #38bdf8 !important;
+  letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  flex: 1 !important;
+}
+
+.knx-voice-bar-wave {
+  display: inline-flex !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+  height: 10px !important;
+  flex-shrink: 0 !important;
+}
+.knx-voice-bar-wave .vbar {
+  width: 2px !important;
+  background: #00f0ff !important;
+  border-radius: 1px !important;
+  height: 4px !important;
+}
+.knx-voice-bar-wave .vbar:nth-child(1) { animation: waveDance 0.8s 0.1s infinite alternate; }
+.knx-voice-bar-wave .vbar:nth-child(2) { animation: waveDance 0.7s 0.25s infinite alternate; }
+.knx-voice-bar-wave .vbar:nth-child(3) { animation: waveDance 0.9s 0.05s infinite alternate; }
+.knx-voice-bar-wave .vbar:nth-child(4) { animation: waveDance 0.6s 0.35s infinite alternate; }
+.knx-voice-bar-wave .vbar:nth-child(5) { animation: waveDance 0.85s 0.15s infinite alternate; }
+
+@keyframes waveDance {
+  0% { height: 3px; }
+  100% { height: 10px; }
+}
+
+/* Collapsed State */
+.knx-jarvis-terminal.collapsed {
+  width: auto !important;
+  min-width: 200px !important;
+  padding: 6px 10px !important;
+}
+.knx-jarvis-terminal.collapsed .knx-neural-sphere-wrap,
+.knx-jarvis-terminal.collapsed .knx-voice-bar {
+  display: none !important;
+}
+.knx-jarvis-terminal.collapsed .knx-ai-header {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Boot sequence 3D Particle Cloud Canvas */
+.jarvis-boot-canvas {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 360px !important;
+  height: 360px !important;
+  margin-top: -180px !important;
+  margin-left: -180px !important;
+  pointer-events: none !important;
+  filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.75)) !important;
+  animation: bootCanvasFade 1.35s cubic-bezier(0.1, 0.8, 0.2, 1) forwards !important;
+}
+
+@keyframes bootCanvasFade {
+  0% { transform: scale(0.2); opacity: 0; }
+  25% { transform: scale(1); opacity: 1; }
+  75% { transform: scale(1.35); opacity: 0.9; }
+  100% { transform: scale(1.85); opacity: 0; }
+}
+
+
+/* ==========================================================================
+   NEUTRALIZE NATIVE JEEDOM LOADING SPINNERS & DOUBLE ANIMATIONS
+   Disables Jeedom's native 3-ring spinner and backdrop completely
+   ========================================================================== */
+#div_jeedomLoading,
+#div_jeedomLoading .loadingBack,
+#div_jeedomLoading .loadingSpinner,
+#div_jeedomLoading .loadingSpinner::before,
+#div_jeedomLoading .loadingSpinner::after,
+.div_displayObject center.loading,
+.div_displayPlan center.loading,
+#div_displayPlan > center.loading,
+.loadingBack {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  animation: none !important;
+  -webkit-animation: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Proper overlay styling for Jarvis Boot Sequence */
+.jarvis-boot-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+}
+
+.jarvis-boot-scanline {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent, #00f0ff, transparent) !important;
+  box-shadow: 0 0 15px #00f0ff !important;
+  animation: bootScan 1.2s ease-in-out forwards !important;
+  pointer-events: none !important;
+}
+
+@keyframes bootScan {
+  0% { top: 0%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+
+/* ==========================================================================
+   J.A.R.V.I.S. NEURAL CORE (BOTTOM-LEFT TERMINAL) - CLEAN & COMPACT
+   ========================================================================== */
+.knx-jarvis-terminal {
+  position: fixed !important;
+  bottom: 16px !important;
+  left: 16px !important;
+  width: 230px !important;
+  max-width: calc(100vw - 32px) !important;
+  background: rgba(6, 15, 30, 0.92) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.45) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 240, 255, 0.22), inset 0 0 25px rgba(0, 240, 255, 0.05) !important;
+  border-radius: 0 !important;
+  clip-path: polygon(
+    0 12px, 12px 0,
+    calc(100% - 12px) 0, 100% 12px,
+    100% calc(100% - 12px), calc(100% - 12px) 100%,
+    12px 100%, 0 calc(100% - 12px)
+  ) !important;
+  padding: 10px 12px !important;
+  z-index: 1000 !important;
+  color: #e2e8f0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  overflow: hidden !important;
+}
+
+.knx-jarvis-terminal:hover {
+  border-color: rgba(0, 240, 255, 0.8) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.35), inset 0 0 30px rgba(0, 240, 255, 0.08) !important;
+}
+
+.knx-jarvis-terminal.jarvis-speaking {
+  border-color: #00f0ff !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 240, 255, 0.6), inset 0 0 30px rgba(0, 240, 255, 0.2) !important;
+}
+
+.knx-jarvis-terminal.jarvis-listening {
+  border-color: #ff3366 !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.95), 0 0 40px rgba(255, 51, 102, 0.5), inset 0 0 30px rgba(255, 51, 102, 0.15) !important;
+}
+
+/* Header */
+.knx-terminal-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.18) !important;
+  padding-bottom: 6px !important;
+}
+
+.knx-terminal-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.knx-core-pulse-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #00f0ff !important;
+  box-shadow: 0 0 8px #00f0ff !important;
+  animation: knxCorePulse 2s infinite ease-in-out !important;
+}
+
+@keyframes knxCorePulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 6px #00f0ff; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #00f0ff; }
+}
+
+.knx-terminal-title {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.5px !important;
+  color: #00f0ff !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.6) !important;
+}
+
+.knx-terminal-sub {
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  margin-left: 2px !important;
+}
+
+.knx-terminal-clock {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  color: #00f0ff !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.4) !important;
+}
+
+/* Center Stage: Neural Particle Sphere (The AI Mind) */
+.knx-neural-hero-stage {
+  position: relative !important;
+  width: 100% !important;
+  height: 170px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.08) 0%, rgba(6, 15, 30, 0) 70%) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.knx-terminal-orb-canvas {
+  width: 220px !important;
+  height: 170px !important;
+  display: block !important;
+  cursor: pointer !important;
+  filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.35)) !important;
+}
+
+.knx-orb-glow-ring {
+  display: none !important;
+}
+
+@keyframes knxRingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Bottom: Interactive Voice Bar */
+.knx-voice-bar {
+  background: rgba(0, 240, 255, 0.06) !important;
+  border: 1px solid rgba(0, 240, 255, 0.3) !important;
+  border-radius: 6px !important;
+  padding: 6px 8px !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  user-select: none !important;
+}
+
+.knx-voice-bar:hover {
+  background: rgba(0, 240, 255, 0.14) !important;
+  border-color: #00f0ff !important;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.25) !important;
+}
+
+.knx-voice-bar.is-listening {
+  background: rgba(255, 51, 102, 0.15) !important;
+  border-color: #ff3366 !important;
+  box-shadow: 0 0 16px rgba(255, 51, 102, 0.35) !important;
+}
+
+.knx-voice-bar-inner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.knx-mic-circle {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: rgba(0, 240, 255, 0.15) !important;
+  border: 1px solid rgba(0, 240, 255, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #00f0ff !important;
+  flex-shrink: 0 !important;
+  transition: all 0.25s ease !important;
+}
+
+.knx-voice-bar:hover .knx-mic-circle {
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 8px #00f0ff !important;
+}
+
+.knx-voice-bar.is-listening .knx-mic-circle {
+  background: rgba(255, 51, 102, 0.3) !important;
+  border-color: #ff3366 !important;
+  color: #ff3366 !important;
+  box-shadow: 0 0 10px #ff3366 !important;
+}
+
+.knx-mic-svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.knx-voice-text {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.knx-voice-status {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #00f0ff !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.knx-voice-sub {
+  font-size: 8px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  letter-spacing: 0.5px !important;
+}
+
+.knx-voice-wave {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  height: 14px !important;
+}
+
+.knx-voice-wave .v-bar {
+  width: 2px !important;
+  height: 4px !important;
+  background: #00f0ff !important;
+  border-radius: 1px !important;
+  transition: height 0.15s ease !important;
+}
+
+.knx-voice-bar.is-listening .knx-voice-wave .v-bar {
+  background: #ff3366 !important;
+  animation: knxWaveJump 0.6s infinite ease-in-out alternate !important;
+}
+
+.knx-voice-bar.is-listening .knx-voice-wave .v-bar:nth-child(1) { animation-delay: 0.0s; }
+.knx-voice-bar.is-listening .knx-voice-wave .v-bar:nth-child(2) { animation-delay: 0.15s; }
+.knx-voice-bar.is-listening .knx-voice-wave .v-bar:nth-child(3) { animation-delay: 0.3s; }
+.knx-voice-bar.is-listening .knx-voice-wave .v-bar:nth-child(4) { animation-delay: 0.45s; }
+
+@keyframes knxWaveJump {
+  from { height: 3px; }
+  to { height: 14px; }
+}
+
+/* ANTI-COLLISION & RESPONSIVE RULES FOR DOCK & TERMINAL */
+@media (max-width: 1300px) {
+  .knx-jarvis-terminal {
+    width: 210px !important;
+  }
+  .knx-terminal-orb-canvas {
+    width: 200px !important;
+    height: 155px !important;
+  }
+  .knx-neural-hero-stage {
+    height: 155px !important;
+  }
+  .knx-dock-container {
+    gap: 4px !important;
+    padding: 5px 10px !important;
+  }
+  .knx-dock-btn {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .knx-jarvis-terminal {
+    width: 185px !important;
+    bottom: 12px !important;
+    left: 12px !important;
+  }
+  .knx-dock-container {
+    left: auto !important;
+    right: 12px !important;
+    transform: none !important;
+    bottom: 12px !important;
+  }
+}
+
+
+/* STRICT ANTI-COLLISION: 200px terminal and safe dock clearance */
+.knx-jarvis-terminal {
+  position: fixed !important;
+  bottom: 14px !important;
+  left: 14px !important;
+  width: 200px !important;
+  max-width: calc(100vw - 28px) !important;
+  padding: 8px 10px !important;
+  z-index: 1000 !important;
+}
+
+.knx-neural-hero-stage {
+  height: 145px !important;
+}
+
+.knx-terminal-orb-canvas {
+  width: 195px !important;
+  height: 145px !important;
+}
+
+.knx-dock-container {
+  position: fixed !important;
+  bottom: 14px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: calc(100vw - 440px) !important;
+  z-index: 1000 !important;
+}
+
+@media (max-width: 1440px) {
+  .knx-dock-container {
+    gap: 4px !important;
+    padding: 4px 8px !important;
+  }
+  .knx-dock-btn {
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+}
+
+@media (max-width: 1220px) {
+  .knx-jarvis-terminal {
+    width: 175px !important;
+  }
+  .knx-dock-container {
+    left: auto !important;
+    right: 14px !important;
+    transform: none !important;
+    max-width: calc(100vw - 205px) !important;
+  }
+}
+
+
+/* FINAL POLISH: Anti-clipping, perfect margins & dock separation */
+.knx-jarvis-terminal {
+  position: fixed !important;
+  bottom: 14px !important;
+  left: 14px !important;
+  width: 215px !important;
+  max-width: calc(100vw - 28px) !important;
+  padding: 8px 10px 14px 10px !important;
+  z-index: 1000 !important;
+  box-sizing: border-box !important;
+}
+
+.knx-jarvis-terminal::after {
+  bottom: 2px !important;
+  right: 2px !important;
+  pointer-events: none !important;
+}
+
+.knx-neural-hero-stage {
+  height: 165px !important;
+}
+
+.knx-terminal-orb-canvas {
+  width: 205px !important;
+  height: 165px !important;
+}
+
+.knx-voice-bar {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 5px 8px !important;
+  margin-top: 2px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+.knx-voice-bar-inner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.knx-voice-text {
+  flex: 1 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.knx-voice-status {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.3px !important;
+  color: #00f0ff !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.knx-voice-sub {
+  font-size: 8px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  letter-spacing: 0.2px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.knx-dock-container {
+  position: fixed !important;
+  bottom: 14px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: calc(100vw - 460px) !important;
+  z-index: 1000 !important;
+}
+
+@media (max-width: 1440px) {
+  .knx-dock-container {
+    gap: 4px !important;
+    padding: 4px 8px !important;
+  }
+  .knx-dock-btn {
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+}
+
+@media (max-width: 1220px) {
+  .knx-jarvis-terminal {
+    width: 185px !important;
+  }
+  .knx-dock-container {
+    left: auto !important;
+    right: 14px !important;
+    transform: none !important;
+    max-width: calc(100vw - 215px) !important;
+  }
+}
+
+
+/* CRITICAL: Enable pointer events on terminal so clicks work */
+.knx-jarvis-terminal,
+#knx-jarvis-terminal,
+.knx-voice-bar,
+#knx-voice-bar {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.knx-voice-bar * {
+  pointer-events: none !important;
+}
