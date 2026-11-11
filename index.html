@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. // Jeedom Design Hub Complete Showcase</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Hub Design System CSS -->
+    <link rel="stylesheet" href="design_hub.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #02060c url('plan_background.jpg') center center / cover no-repeat;
+            font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #f8fafc;
+        }
+        #div_displayPlan {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+        #div_displayPlan > * {
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="div_displayPlan">
+        <!-- The complete HUD is dynamically mounted here by design_hub.js -->
+        <div id="knx-design-hub"></div>
+    </div>
+
+    <!-- Mock Jeedom Command Handler for Standalone Testing -->
+    <script>
+        window.jeedom = {
+            cmd: {
+                execute: function(params) {
+                    console.log('[Jeedom Standalone Mock] Executed command:', params);
+                }
+            }
+        };
+    </script>
+
+    <!-- Core Hub Logic & Biometric Engine -->
+    <script src="design_hub.js"></script>
+</body>
+</html>
